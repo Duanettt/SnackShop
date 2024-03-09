@@ -9,6 +9,9 @@ public abstract class Snack
     {
         try
         {
+            /* This function if invalid will throw an exception which will prompt
+            the constructor to identify this and go to our catch area
+             */
             validateSnack(snackID, basePrice);
             this.snackID = snackID;
             this.basePrice = basePrice;
