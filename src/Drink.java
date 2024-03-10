@@ -3,11 +3,11 @@ public class Drink extends Snack
     // Enumeration for sugarContent Levels/
     public enum sugarContent {HIGH, LOW, NONE}
     // Actual fields
-    private sugarContent sugarContentLevel;
+    private final sugarContent sugarContentLevel;
     // Conditional Variables to check for F (Easier for me to understand)
     private final boolean firstLetterIsEqualToD = (getSnackIDCharAt(0) == 'D');
 
-    Drink(String snackID, String name, int basePrice, sugarContent sugarContentLevel) throws InvalidSnackException
+    Drink(String snackID, String name, int basePrice, String sugarContent) throws InvalidSnackException
     {
         // Call our original instructor it will then do the normal Snack Checks to check if its id is valid
         super(snackID, name, basePrice);
@@ -17,7 +17,8 @@ public class Drink extends Snack
          */
         if(firstLetterIsEqualToD)
         {
-            this.sugarContentLevel = sugarContentLevel;
+            // We will take in our
+            this.sugarContentLevel = sugarContentConversion(sugarContent);
         }
         else
         {
@@ -35,7 +36,7 @@ public class Drink extends Snack
         }
         else
         {
-            throw new InvalidSnackException("Your snackID: " + snackID + " is not valid we need F(Food) or" +
+            throw new InvalidSnackException("Your snackID: " + snackID + " is not valid we need " +
                     "D(Drink)..Please try again!");
         }
     }
@@ -49,6 +50,9 @@ public class Drink extends Snack
     @Override
     public int calculatePrice() {
         int price = basePrice; // Initialize with the base price
+        /* Checks the sugarContentLevel variable if it contains HIGH,LOW or NONE,
+        applies the tax to our price.
+         */
 
         switch (sugarContentLevel) {
             case HIGH:
@@ -63,9 +67,48 @@ public class Drink extends Snack
         }
         return price;
     }
+    /* UPDATE: When building the drink class and trying to create an object we had to
+    input sugarContentLevel.HIGH for example would rather be able to just input high in
+    string format and then have a content Conversion function in the constructor. This might
+    come in handy later on within the coursework.
+     */
+
+    public sugarContent sugarContentConversion(String sugarContent)
+    {
+        // make each sugarcontent input lower case.
+        String input = sugarContent.toLowerCase();
+        // Do conditional checks for each sugarContent and return the value.
+        if (input.contains("high"))
+        {
+            return Drink.sugarContent.HIGH;
+        }
+        else if (input.contains("low"))
+        {
+            return Drink.sugarContent.LOW;
+        }
+        else if (input.contains("none"))
+        {
+            return Drink.sugarContent.NONE;
+        }
+        else
+        {
+            throw new InvalidSnackException("You have chosen an invalid sugar content level. " +
+                    "Must be from HIGH, LOW or NONE");
+        }
+    }
 
     public sugarContent getSugarContentLevel()
     {
         return sugarContentLevel;
+    }
+
+    public static void main(String[] args) throws InvalidSnackException {
+        /* Testing my conversion system for Drink class
+
+         */
+        Drink test = new Drink("D/8547328", "Popcorn", 200, "high");
+        System.out.println(test.getSugarContentLevel());
+
+
     }
 }
