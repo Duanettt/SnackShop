@@ -20,7 +20,7 @@ public class Customer
     }
     // Methods for Customer.
 
-    private void validateCustomerInfo(int balance, String accountID) throws InvalidCustomerException
+    protected void validateCustomerInfo(int balance, String accountID) throws InvalidCustomerException
     {
         if (balance < 0)
         {
