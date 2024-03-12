@@ -12,10 +12,10 @@ public class Customer
         this.name = name;
         this.accountID = accountID;
     }
-    public Customer(String name, String customerID)
+    public Customer(String name, String accountID)
     {
         this.name = name;
-        this.accountID = customerID;
+        this.accountID = accountID;
         balance = 0;
     }
     // Methods for Customer.

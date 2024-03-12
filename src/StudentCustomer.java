@@ -45,7 +45,7 @@ public class StudentCustomer extends Customer
         return balance -= snackPrice;
     }
 
-    public static double calculateDiscountedPrice(int snackPrice, int studentDiscountPercentage)
+    public static double calculateDiscountedPrice(int snackPrice, double studentDiscountPercentage)
     {
         /* We do our studentDiscountPercentage e.g 5/100 which gives us 0.05 we then do 1 - 0.05 to get 0.95
         we then times this by our price to get our discounted price for our snack.

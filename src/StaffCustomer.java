@@ -10,28 +10,41 @@ public class StaffCustomer extends Customer
         this.staffDepartment = determineStaffDepartment(staffDepartment);
     }
 
-    public StaffCustomer(String name, String customerID, String staffDepartment)
+    public StaffCustomer(String name, String accountID, String staffDepartment)
     {
-        super(name, customerID);
+        super(name, accountID);
         this.staffDepartment = determineStaffDepartment(staffDepartment);
     }
 
     @Override
-    public int chargeAccount(int snackPrice, String staffDepartment) throws InvalidBalanceException
+    public int chargeAccount(int snackPrice) throws InvalidBalanceException
     {
-        /* This is wrong need to chill ill be back.. */
-        return snackPrice * ( 1 - (calculateDiscountFromDept(staffDepartment)/ 100.0));
+        boolean balanceIsLessThanStaffDiscountedPrice = (balance <
+                StudentCustomer.calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+
+        if(balanceIsLessThanStaffDiscountedPrice)
+        {
+            throw new InvalidBalanceException("Insufficient balance, your balance: " +
+                    balance);
+        }
+
+        double staffDiscountedSnackPrice = (StudentCustomer.calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+        /* Updated: Removed the else since, no need to add an else statement
+         */
+        return Math.round(balance -= (int) staffDiscountedSnackPrice);
     }
 
-    private double calculateDiscountFromDept(String department)
+    private double calculateDiscountFromDept()
     {
-        schoolDepartment temp = determineStaffDepartment(department);
+        schoolDepartment temp = this.staffDepartment;
+
         double discount = 0.0;
 
         switch(temp)
         {
             case CMP:
                 discount = 10.0;
+                System.out.println("Computer Science selected!");
                 break;
             // I do understand that jdk 14+ can support both MTH,BIO but I'm not risking PASS so ill separate
             // MTH and BIO for now.
@@ -41,9 +54,11 @@ public class StaffCustomer extends Customer
             case MTH:
             case BIO:
                 discount = 2.0;
+                System.out.println("Maths or Biology selected!");
                 break;
             case OTHER:
                 discount = 0.0;
+                System.out.println("Other selected!");
                 break;
         }
         return discount;
@@ -83,5 +98,9 @@ public class StaffCustomer extends Customer
     public void setStaffDepartment(schoolDepartment staffDepartment)
     {
         this.staffDepartment = staffDepartment;
+    }
+    public static void main(String[] args) throws InvalidBalanceException {
+        StaffCustomer test = new StaffCustomer(500, "Duaine", "A123456", "bio");
+        System.out.println(test.chargeAccount(150));
     }
 }
