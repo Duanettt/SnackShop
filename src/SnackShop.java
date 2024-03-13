@@ -1,6 +1,5 @@
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SnackShop {
     /*
@@ -134,12 +133,14 @@ public class SnackShop {
     }
     // our processPurchase function:
 
-    public boolean processPurchase(String customerID, String snackID) throws InvalidBalanceException {
+    public boolean processPurchase(String customerID, String snackID) throws InvalidBalanceException
+    {
         boolean customerAccountsAndSnackCollectionContainsIDS =
                 customerAccounts.containsKey(customerID) ||
                         snackCollection.containsKey(snackID);
 
-        if (customerAccountsAndSnackCollectionContainsIDS) {
+        if (customerAccountsAndSnackCollectionContainsIDS)
+        {
                 /*
                 This code is what the code below does I did not really want to keep
                 creating variables but for readability I chose the code below this comment.
@@ -158,21 +159,80 @@ public class SnackShop {
                 c.chargeAccount(s.getBasePrice());
                 return true;
             }
-            catch(InvalidCustomerException | InvalidBalanceException |
-                  InvalidSnackException e)
-            {
+            catch (InvalidCustomerException | InvalidBalanceException |
+                     InvalidSnackException e) {
                 System.out.println(e.getMessage());
             }
-            return false;
         }
-        ;
-
-        public int findLargestBasePrice ()
-        {
-            for (Map.Entry<String, Snack> entry : snackCollection.entrySet()) {
-            }
-        }
+        return false;
     }
+
+        public int findLargestBasePrice()
+        {
+            int largestSnackBasePrice = 0;
+            for (Snack snack : snackCollection.values())
+            {
+                int snackBasePrice = snack.getBasePrice();
+                if(snackBasePrice > largestSnackBasePrice)
+                {
+                    largestSnackBasePrice = snackBasePrice;
+                }
+            }
+            return largestSnackBasePrice;
+        }
+
+        public int countNegativeAccount()
+        {
+            int numOfNegativeAccounts = 0;
+            for(Customer customer : customerAccounts.values())
+            {
+                int currentCustomerBalance = customer.getBalance();
+                if(currentCustomerBalance < 0)
+                {
+                    numOfNegativeAccounts++;
+                }
+            }
+            return numOfNegativeAccounts;
+        }
+
+        public int calculateMedianCustomerBalance()
+        {
+            List<Integer> customerBalances = new ArrayList<>();
+            /*
+            Method of conversion from hashmap to list for sorting of our data.
+             */
+            for(Customer customer : customerAccounts.values())
+            {
+                int customerBalance = customer.getBalance();
+                customerBalances.add(customerBalance);
+            }
+            /*
+            Sorts our new List with customer balances into order
+             */
+            Collections.sort(customerBalances);
+            int size = customerBalances.size();
+            /*
+            Finding the median.
+             */
+            for(int value : customerBalances)
+            {
+                boolean sizeOfBalanceListEven = size % 2 == 0;
+
+                if(sizeOfBalanceListEven)
+                {
+
+                    int middle1 = customerBalances.get(size / 2 - 1);
+                    int middle2 = customerBalances.get(size / 2);
+
+                    return (int) ((middle1 + middle2) / 2.0);
+                }
+                else
+                {
+                    return (int) ((customerBalances.size()) / 2.0);
+                }
+            }
+            return 0;
+        }
 
 // Getters and Setters for our Shop name.
         public String getShopName()
