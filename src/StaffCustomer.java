@@ -7,31 +7,53 @@ public class StaffCustomer extends Customer
     public StaffCustomer(int balance, String name, String accountID, String staffDepartment) throws InvalidCustomerException
     {
         super(balance, name, accountID);
-        this.staffDepartment = determineStaffDepartment(staffDepartment);
+        try
+        {
+            this.staffDepartment = determineStaffDepartment(staffDepartment);
+        }
+        catch (InvalidCustomerException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     public StaffCustomer(String name, String accountID, String staffDepartment)
     {
         super(name, accountID);
-        this.staffDepartment = determineStaffDepartment(staffDepartment);
+        try
+        {
+            this.staffDepartment = determineStaffDepartment(staffDepartment);
+        }
+        catch (InvalidCustomerException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public int chargeAccount(int snackPrice) throws InvalidBalanceException
+    public int chargeAccount(int snackPrice)
     {
         boolean balanceIsLessThanStaffDiscountedPrice = (balance <
-                StudentCustomer.calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+                calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+        int newBalance = 0;
 
-        if(balanceIsLessThanStaffDiscountedPrice)
+        try
         {
-            throw new InvalidBalanceException("Insufficient balance, your balance: " +
-                    balance);
+            if(balanceIsLessThanStaffDiscountedPrice)
+            {
+                throw new InvalidBalanceException("Insufficient balance, your balance: " +
+                        balance);
+            }
+            double staffDiscountedSnackPrice = (calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+            /* Updated: Removed the else since, no need to add an else statement
+             */
+            newBalance = Math.round(balance -= (int) staffDiscountedSnackPrice);
         }
-
-        double staffDiscountedSnackPrice = (StudentCustomer.calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
-        /* Updated: Removed the else since, no need to add an else statement
-         */
-        return Math.round(balance -= (int) staffDiscountedSnackPrice);
+        catch (InvalidBalanceException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return newBalance;
     }
 
     private double calculateDiscountFromDept()
@@ -98,6 +120,13 @@ public class StaffCustomer extends Customer
     public void setStaffDepartment(schoolDepartment staffDepartment)
     {
         this.staffDepartment = staffDepartment;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer with accountID of: " + accountID + "is a member of " +
+                "staff, at this specific school department: " + staffDepartment
+                + ", their name is: " + name + " has a balance of: " + balance;
     }
     public static void main(String[] args) throws InvalidBalanceException {
         StaffCustomer test = new StaffCustomer(500, "Duaine", "A123456", "bio");

@@ -1,5 +1,6 @@
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SnackShop {
     /*
@@ -27,9 +28,16 @@ public class SnackShop {
         this.shopName = shopName;
     }
 
-    /* UPDATE: Methods to add individual customers and snacks need multiple methods to access,
+    /* UPDATE: Struggled on this since did not really know if the coursework wanted
+    me to find a way to add snacks and then determine which snacks are which or
+    just have these individual methods. Stuck with this since coursework said individual
+    customers and snacks..
+    /*
+
+     /*
+    Methods to add individual customers and snacks need multiple methods to access,3
     multiple constructors cannot find another way to do this other than possibly changing
-    the whole structure of this code which is not ideal....
+    the whole structure of this code which is not ideal...
      */
 
     public void addStudentCustomers(int balance, String name, String accountID)
@@ -126,48 +134,73 @@ public class SnackShop {
     }
     // our processPurchase function:
 
-    public boolean processPurchase(String customerID, String snackID)
-    {
+    public boolean processPurchase(String customerID, String snackID) throws InvalidBalanceException {
         boolean customerAccountsAndSnackCollectionContainsIDS =
                 customerAccounts.containsKey(customerID) ||
                         snackCollection.containsKey(snackID);
 
-        if(customerAccountsAndSnackCollectionContainsIDS)
-        {
+        if (customerAccountsAndSnackCollectionContainsIDS) {
+                /*
+                This code is what the code below does I did not really want to keep
+                creating variables but for readability I chose the code below this comment.
+                Both do the same thing just which one is better for
+                readability.
+                getCustomer(customerID).chargeAccount(getSnack(snackID).getBasePrice());
+                */
+            /*
+            UPDATE: Revisited slides and watched videos on exceptions relearnt multiple things
+            which has enabled me to figure this out.
+             */
             try
             {
-                Customer c = customerAccounts.get(customerID);
-                Snack s = snackCollection.get(snackID);
+                Customer c = getCustomer(customerID);
+                Snack s = getSnack(snackID);
                 c.chargeAccount(s.getBasePrice());
                 return true;
             }
-            catch (InvalidBalanceException e)
+            catch(InvalidCustomerException | InvalidBalanceException |
+                  InvalidSnackException e)
             {
                 System.out.println(e.getMessage());
             }
+            return false;
         }
-        return false;
+        ;
+
+        public int findLargestBasePrice ()
+        {
+            for (Map.Entry<String, Snack> entry : snackCollection.entrySet()) {
+            }
+        }
     }
+
 // Getters and Setters for our Shop name.
-    public String getShopName()
-    {
-        return shopName;
-    }
+        public String getShopName()
+        {
+            return shopName;
+        }
 
-    public void setShopName(String shopName)
-    {
-        this.shopName = shopName;
-    }
+        public void setShopName (String shopName)
+        {
+            this.shopName = shopName;
+        }
 
-    public Customer getCustomer(String customerID)
-    {
-        return customerAccounts.get(customerID);
-    }
+        public Customer getCustomer (String customerID) throws InvalidCustomerException
+        {
+            return customerAccounts.get(customerID);
+        }
 
-    public static void main(String[] args)
-    {
-        SnackShop Tesco = new SnackShop("Tesco");
+        public Snack getSnack (String snackID) throws InvalidSnackException
+        {
+            return snackCollection.get(snackID);
+        }
 
-    }
+        public static void main (String[]args)
+        {
+            SnackShop Tesco = new SnackShop("Tesco");
+
+        }
+
 
 }
+

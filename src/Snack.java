@@ -28,7 +28,7 @@ public abstract class Snack
         }
 
     }
-    protected void validateSnack(String snackID, int price) throws InvalidSnackException
+    private void validateSnack(String snackID, int price) throws InvalidSnackException
     {
         if(snackID == null || snackID.length() < 9)
         {
