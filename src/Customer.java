@@ -7,16 +7,32 @@ public class Customer
     // Constructors for customer
     public Customer(int balance, String name, String accountID) throws InvalidCustomerException
     {
-        validateCustomerInfo(balance, accountID);
-        this.balance = balance;
-        this.name = name;
-        this.accountID = accountID;
+        try
+        {
+            validateCustomerInfo(balance,accountID);
+            this.name = name;
+            this.accountID = accountID;
+            this.balance = balance;
+        }
+        catch (InvalidCustomerException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
-    public Customer(String name, String accountID)
+    public Customer(String name, String accountID) throws InvalidCustomerException
     {
-        this.name = name;
-        this.accountID = accountID;
         balance = 0;
+        try
+        {
+            validateCustomerInfo(balance,accountID);
+            this.name = name;
+            this.accountID = accountID;
+        }
+        catch (InvalidCustomerException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
     }
     // Methods for Customer.
 
@@ -75,6 +91,11 @@ public class Customer
     public int getBalance()
     {
         return balance;
+    }
+
+    public void setBalance(int balance)
+    {
+        this.balance = balance;
     }
 
     public String getName()

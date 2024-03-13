@@ -2,7 +2,7 @@ public class StudentCustomer extends Customer
 {
     private int maxNegativeBalance = -500;
     private int studentDiscountNum = 5;
-    public StudentCustomer(int balance, String name, String accountID) throws InvalidCustomerException
+    public StudentCustomer(int balance, String name, String accountID)
     {
         super(balance, name, accountID);
     }
