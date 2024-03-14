@@ -45,6 +45,7 @@ public class SnackShop {
         {
             Customer customer = new Customer(balance, name, accountID);
             customerAccounts.put(accountID, customer);
+            System.out.println(customer);
         }
         catch (InvalidCustomerException e)
         {
@@ -58,6 +59,7 @@ public class SnackShop {
         {
             Customer studentCustomer = new StudentCustomer(balance, name, accountID);
             customerAccounts.put(accountID, studentCustomer);
+            System.out.println(studentCustomer);
         }
         catch (InvalidCustomerException e)
         {
@@ -72,6 +74,7 @@ public class SnackShop {
         {
             Customer studentCustomer = new StudentCustomer(name, accountID);
             customerAccounts.put(accountID, studentCustomer);
+            System.out.println(studentCustomer);
         }
         catch (InvalidCustomerException e)
         {
@@ -86,6 +89,7 @@ public class SnackShop {
         {
             Customer staffCustomer = new StaffCustomer(balance, name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
+            System.out.println(staffCustomer);
         }
         catch (InvalidCustomerException e)
         {
@@ -99,6 +103,7 @@ public class SnackShop {
         {
             Customer staffCustomer = new StaffCustomer(name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
+            System.out.println(staffCustomer);
         }
         catch (InvalidSnackException e)
         {
@@ -112,6 +117,7 @@ public class SnackShop {
         {
             Food food = new Food(snackID, name, basePrice, isHot);
             snackCollection.put(snackID, food);
+            System.out.println(food);
         }
         catch (InvalidSnackException e)
         {
@@ -125,6 +131,7 @@ public class SnackShop {
         {
             Drink drink = new Drink(snackID, name, basePrice, sugarContent);
             snackCollection.put(snackID, drink);
+            System.out.println(drink);
         }
         catch (InvalidSnackException e)
         {
@@ -137,6 +144,7 @@ public class SnackShop {
         {
             Drink drink = new Drink(snackID, name, basePrice);
             snackCollection.put(snackID, drink);
+            System.out.println(drink);
         }
         catch (InvalidSnackException e)
         {

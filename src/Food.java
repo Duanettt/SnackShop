@@ -2,6 +2,8 @@ public class Food extends Snack {
     // Actual fields
     public enum hotOrCold {HOT, COLD}
     private hotOrCold isHot;
+
+    private int newPrice;
     public final double surcharge = 1.1;
 
     Food(String snackID, String name, int basePrice, String isHot) throws InvalidSnackException
@@ -51,6 +53,9 @@ public class Food extends Snack {
     @Override
     public int calculatePrice()
     {
+        // Test to see what the new price is after i apply this.
+        newPrice = (int) Math.round(basePrice * surcharge);
+
         // This casts to an int then we round the result to the nearest penny.
         return (int) Math.round(basePrice * surcharge);
     }
@@ -58,6 +63,12 @@ public class Food extends Snack {
     public hotOrCold isHot()
     {
         return isHot;
+    }
+
+    @Override
+    public String toString() {
+        return "Food is " + name + " and is " + isHot + "our original price is " + basePrice +
+                "and our new price is " + newPrice + " the snackID is " + snackID;
     }
 
     // Test Harness

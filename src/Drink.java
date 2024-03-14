@@ -3,6 +3,7 @@ public class Drink extends Snack
     // Enumeration for sugarContent Levels/
     public enum sugarContent {HIGH, LOW, NONE}
     // Actual fields
+    private int originalPrice = 0;
     private final sugarContent sugarContentLevel;
     // Conditional Variables to check for F (Easier for me to understand)
     private final boolean firstLetterIsEqualToD = (getSnackIDCharAt(0) == 'D');
@@ -11,6 +12,10 @@ public class Drink extends Snack
     {
         // Call our original instructor it will then do the normal Snack Checks to check if its id is valid
         super(snackID, name, basePrice);
+
+        // Just to test and see if the originalPrice has been modified correctly.
+        this.originalPrice = basePrice;
+
         // Then we come out of and check within this constructor:
         /* If our first letter is equal to f we finally initalize our last constructor parameter
         variable else we catch the exception and display the message. (In this case we need F!)
@@ -102,6 +107,11 @@ public class Drink extends Snack
         return sugarContentLevel;
     }
 
+    @Override
+    public String toString() {
+        return "Drink is " + name + " and has a sugar content value of " + sugarContentLevel + "our original price is " + basePrice +
+                "and our new price is " + originalPrice + " the snackID is " + snackID;
+    }
     public static void main(String[] args) throws InvalidSnackException {
         /* Testing my conversion system for Drink class
 

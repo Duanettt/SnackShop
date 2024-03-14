@@ -90,6 +90,15 @@ public class Customer
         return snackPrice * ( 1 - (studentDiscountPercentage / 100.0));
     }
 
+
+    @Override
+    public String toString()
+    {
+        return "Your new Customer is: " + name + "has a balance of " + balance +
+                "and accountID: " + accountID;
+
+    }
+
     public int addFunds(int amount)
     {
         return balance += amount;
