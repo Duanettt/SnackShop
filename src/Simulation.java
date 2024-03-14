@@ -1,123 +1,156 @@
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Simulation {
-    public Simulation() {
-    }
 
-    public SnackShop initialiseShop(String shopName, File snackFile, File customerFile) {
+    public SnackShop initialiseShop(String shopName, File snackFile, File customerFile)
+    {
         SnackShop snackShop = new SnackShop(shopName);
 
-        try {
+        try
+        {
             BufferedReader snackReader = new BufferedReader(new FileReader(snackFile));
             BufferedReader customerReader = new BufferedReader(new FileReader(customerFile));
 
             String snackLine;
-            while((snackLine = snackReader.readLine()) != null) {
+            while ((snackLine = snackReader.readLine()) != null)
+            {
                 String[] snackLineValues = snackLine.split("@");
                 this.processAndAddSnacks(snackLineValues, snackShop);
             }
 
             String customerLine;
-            while((customerLine = customerReader.readLine()) != null) {
+            while ((customerLine = customerReader.readLine()) != null)
+            {
                 String[] customerLineValues = customerLine.split("#");
                 this.processAndAddCustomers(customerLineValues, snackShop);
             }
-        } catch (IOException var10) {
-            var10.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
 
         return snackShop;
     }
 
-    public File makeSnackFileObject(String snackPath) {
+    public File makeSnackFileObject(String snackPath)
+    {
         File snackFile = null;
 
-        try {
+        try
+        {
             snackFile = new File(snackPath);
-        } catch (NullPointerException var4) {
-            var4.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
         }
 
         return snackFile;
     }
 
-    public File makeCustomerFileObject(String customerPath) {
+    public File makeCustomerFileObject(String customerPath)
+    {
         File customerFile = null;
 
-        try {
+        try
+        {
             customerFile = new File(customerPath);
-        } catch (NullPointerException var4) {
-            var4.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
         }
 
         return customerFile;
     }
 
-    public void processAndAddCustomers(String[] customerLine, SnackShop snackShop) {
+    public void processAndAddCustomers(String[] customerLine, SnackShop snackShop)
+    {
         String accountID = customerLine[0];
         String name = customerLine[1];
         int balance = Integer.parseInt(customerLine[2]);
-        if (customerLine.length > 3) {
-            switch (customerLine[3].toUpperCase()) {
+        if (customerLine.length > 3)
+        {
+            switch (customerLine[3].toUpperCase())
+            {
                 case "STUDENT":
-                    if (customerLine.length > 4) {
-                        try {
+                    if (customerLine.length >= 4)
+                    {
+                        try
+                        {
                             snackShop.addStudentCustomers(balance, name, accountID);
-                        } catch (NumberFormatException var12) {
+                        }
+                        catch (NumberFormatException e)
+                        {
                             snackShop.addStudentCustomers(name, accountID);
                         }
                     }
                     break;
                 case "STAFF":
-                    if (customerLine.length >= 5) {
-                        String staffDepartment = null;
-
-                        try {
+                    String staffDepartment = null;
+                    if (customerLine.length >= 5)
+                    {
+                        try
+                        {
                             staffDepartment = customerLine[4];
-                            snackShop.addStaffCustomers(balance, name, accountID, staffDepartment);
-                        } catch (ArrayIndexOutOfBoundsException var11) {
-                            snackShop.addStaffCustomers(name, accountID, staffDepartment);
                         }
+                        catch (ArrayIndexOutOfBoundsException ex)
+                        {
+                            staffDepartment = "OTHER";
+                        }
+                        snackShop.addStaffCustomers(balance, name, accountID, staffDepartment);
+                    }
+                    else
+                    {
+                        snackShop.addStaffCustomers(name, accountID, "OTHER");
                     }
                     break;
                 default:
                     System.out.println("Logic went wrong..");
             }
-        } else {
+        }
+        else
+        {
             snackShop.addCustomer(balance, name, accountID);
         }
-
     }
 
-    public void processAndAddSnacks(String[] snackLine, SnackShop snackShop) {
+    public void processAndAddSnacks(String[] snackLine, SnackShop snackShop)
+    {
         String snackID = snackLine[0];
         char[] snackIDCharArray = snackID.toCharArray();
         char snackIDFirstLetter = snackIDCharArray[0];
         String name;
         int basePrice;
         String sugarContentLevel;
-        if (snackIDFirstLetter == 'F') {
+        if (snackIDFirstLetter == 'F')
+        {
             name = snackLine[1];
             basePrice = Integer.parseInt(snackLine[3]);
             sugarContentLevel = snackLine[2];
             snackShop.addFood(snackID, name, basePrice, sugarContentLevel);
-        } else if (snackIDFirstLetter == 'D') {
+        }
+        else if (snackIDFirstLetter == 'D')
+        {
             name = snackLine[1];
             basePrice = Integer.parseInt(snackLine[3]);
             sugarContentLevel = snackLine[2].toLowerCase();
-            if (sugarContentLevel.contains("none")) {
+            if (sugarContentLevel.contains("none"))
+            {
                 snackShop.addDrink(snackID, name, basePrice);
             }
-
-            snackShop.addDrink(snackID, name, basePrice, sugarContentLevel);
+            else
+            {
+                snackShop.addDrink(snackID, name, basePrice, sugarContentLevel);
+            }
         }
-
     }
 
-    public void simulateShopping(SnackShop snackShop, File transactionFile) {
+    public void simulateShopping(SnackShop snackShop, File transactionFile)
+    {
     }
 }

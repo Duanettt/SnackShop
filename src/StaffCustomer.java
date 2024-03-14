@@ -78,7 +78,7 @@ public class StaffCustomer extends Customer
                 discount = 2.0;
                 System.out.println("Maths or Biology selected!");
                 break;
-            case OTHER:
+            default:
                 discount = 0.0;
                 System.out.println("Other selected!");
                 break;

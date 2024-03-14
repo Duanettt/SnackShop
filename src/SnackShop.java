@@ -116,6 +116,7 @@ public class SnackShop {
         try
         {
             Food food = new Food(snackID, name, basePrice, isHot);
+            food.setNewPrice(food.calculatePrice());
             snackCollection.put(snackID, food);
             System.out.println(food);
         }
@@ -130,6 +131,7 @@ public class SnackShop {
         try
         {
             Drink drink = new Drink(snackID, name, basePrice, sugarContent);
+            drink.setNewPrice(drink.calculatePrice());
             snackCollection.put(snackID, drink);
             System.out.println(drink);
         }
@@ -143,6 +145,7 @@ public class SnackShop {
         try
         {
             Drink drink = new Drink(snackID, name, basePrice);
+            drink.setNewPrice(drink.calculatePrice());
             snackCollection.put(snackID, drink);
             System.out.println(drink);
         }

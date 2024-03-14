@@ -1,4 +1,5 @@
 public class Food extends Snack {
+
     // Actual fields
     public enum hotOrCold {HOT, COLD}
     private hotOrCold isHot;
@@ -65,10 +66,15 @@ public class Food extends Snack {
         return isHot;
     }
 
+    public void setNewPrice(int newPrice)
+    {
+        this.newPrice = newPrice;
+    }
+
     @Override
     public String toString() {
-        return "Food is " + name + " and is " + isHot + "our original price is " + basePrice +
-                "and our new price is " + newPrice + " the snackID is " + snackID;
+        return "Food is " + name + " and is " + isHot + ",our original price is " + basePrice +
+                " and our new price is " + newPrice + ".The snackID is " + snackID;
     }
 
     // Test Harness
