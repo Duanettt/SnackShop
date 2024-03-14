@@ -39,6 +39,19 @@ public class SnackShop {
     the whole structure of this code which is not ideal...
      */
 
+    public void addCustomer(int balance, String name, String accountID)
+    {
+        try
+        {
+            Customer customer = new Customer(balance, name, accountID);
+            customerAccounts.put(accountID, customer);
+        }
+        catch (InvalidCustomerException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void addStudentCustomers(int balance, String name, String accountID)
     {
         try
@@ -93,7 +106,7 @@ public class SnackShop {
         }
     }
 
-    public void addFood(String snackID, String name, int basePrice, boolean isHot)
+    public void addFood(String snackID, String name, int basePrice, String isHot)
     {
         try
         {

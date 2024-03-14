@@ -7,9 +7,9 @@ public class StudentCustomer extends Customer
         super(balance, name, accountID);
     }
 
-    public StudentCustomer(String name, String customerID)
+    public StudentCustomer(String name, String accountID)
     {
-        super(name, customerID);
+        super(name, accountID);
     }
 
     /*@Override
