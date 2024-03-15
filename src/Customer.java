@@ -126,7 +126,7 @@ public class Customer
     }
 
     public static void main(String[] args) throws InvalidBalanceException {
-        Customer test = new Customer(250,"Duaine","A64127");
+        Customer test = new Customer(-250,"Duaine","A64127");
         test.chargeAccount(150);
         System.out.println(test.getBalance());
 

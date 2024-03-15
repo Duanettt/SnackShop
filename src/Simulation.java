@@ -36,36 +36,20 @@ public class Simulation {
         return snackShop;
     }
 
-    public File makeSnackFileObject(String snackPath)
+    public File makeFileObject(String filePath)
     {
-        File snackFile = null;
+        File file = null;
 
         try
         {
-            snackFile = new File(snackPath);
+            file = new File(filePath);
         }
         catch (NullPointerException e)
         {
             e.printStackTrace();
         }
 
-        return snackFile;
-    }
-
-    public File makeCustomerFileObject(String customerPath)
-    {
-        File customerFile = null;
-
-        try
-        {
-            customerFile = new File(customerPath);
-        }
-        catch (NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-
-        return customerFile;
+        return file;
     }
 
     public void processAndAddCustomers(String[] customerLine, SnackShop snackShop)
@@ -150,7 +134,27 @@ public class Simulation {
         }
     }
 
+    public void processTransactions(String[] transactionLines)
+    {
+
+    }
+
     public void simulateShopping(SnackShop snackShop, File transactionFile)
     {
+        try
+        {
+            BufferedReader transanctionReader = new BufferedReader(new FileReader(transactionFile));
+
+            String transactionLine;
+            while ((transactionLine = transanctionReader.readLine()) != null)
+            {
+                String[] transactionLineValues = transactionLine.split(",");
+                // processTransactions(String[] transactionLineValues);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

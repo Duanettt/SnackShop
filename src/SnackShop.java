@@ -157,7 +157,7 @@ public class SnackShop {
     }
     // our processPurchase function:
 
-    public boolean processPurchase(String customerID, String snackID) throws InvalidBalanceException
+    public boolean processPurchase(String customerID, String snackID)
     {
         boolean customerAccountsAndSnackCollectionContainsIDS =
                 customerAccounts.containsKey(customerID) ||
@@ -234,6 +234,11 @@ public class SnackShop {
             Sorts our new List with customer balances into order
              */
             Collections.sort(customerBalances);
+            /*
+            Test to actually calculate the median from this which is 400.
+            Also clarifcation on values being added.
+             */
+            System.out.println(customerBalances);
             int size = customerBalances.size();
             /*
             Finding the median.
@@ -248,11 +253,20 @@ public class SnackShop {
                     int middle1 = customerBalances.get(size / 2 - 1);
                     int middle2 = customerBalances.get(size / 2);
 
-                    return (int) ((middle1 + middle2) / 2.0);
+                    /* We use math.ceil to round to the nearest integer, when
+                    using math.round this now rounds to the nearest float.
+                     */
+
+                    int medianPosition = (int) Math.ceil(((middle1 + middle2) / 2.0));
+                    return customerBalances.get(medianPosition);
                 }
                 else
                 {
-                    return (int) ((customerBalances.size()) / 2.0);
+                    /* We use math.ceil to round to the nearest integer, when
+                    using math.round this now rounds to the nearest float.
+                     */
+                    int medianPosition = (int) Math.ceil(((customerBalances.size()) / 2.0));
+                    return customerBalances.get(medianPosition);
                 }
             }
             return 0;
