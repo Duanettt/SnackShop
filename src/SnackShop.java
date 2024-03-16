@@ -45,7 +45,7 @@ public class SnackShop {
         {
             Customer customer = new Customer(balance, name, accountID);
             customerAccounts.put(accountID, customer);
-            System.out.println(customer);
+            // System.out.println(customer);
         }
         catch (InvalidCustomerException e)
         {
@@ -59,11 +59,11 @@ public class SnackShop {
         {
             Customer studentCustomer = new StudentCustomer(balance, name, accountID);
             customerAccounts.put(accountID, studentCustomer);
-            System.out.println(studentCustomer);
+            // System.out.println(studentCustomer);
         }
         catch (InvalidCustomerException e)
         {
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
         }
 
     }
@@ -74,7 +74,7 @@ public class SnackShop {
         {
             Customer studentCustomer = new StudentCustomer(name, accountID);
             customerAccounts.put(accountID, studentCustomer);
-            System.out.println(studentCustomer);
+            // System.out.println(studentCustomer);
         }
         catch (InvalidCustomerException e)
         {
@@ -89,7 +89,7 @@ public class SnackShop {
         {
             Customer staffCustomer = new StaffCustomer(balance, name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
-            System.out.println(staffCustomer);
+            // System.out.println(staffCustomer);
         }
         catch (InvalidCustomerException e)
         {
@@ -103,7 +103,7 @@ public class SnackShop {
         {
             Customer staffCustomer = new StaffCustomer(name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
-            System.out.println(staffCustomer);
+            // System.out.println(staffCustomer);
         }
         catch (InvalidSnackException e)
         {
@@ -118,7 +118,7 @@ public class SnackShop {
             Food food = new Food(snackID, name, basePrice, isHot);
             food.setNewPrice(food.calculatePrice());
             snackCollection.put(snackID, food);
-            System.out.println(food);
+            // System.out.println(food);
         }
         catch (InvalidSnackException e)
         {
@@ -133,7 +133,7 @@ public class SnackShop {
             Drink drink = new Drink(snackID, name, basePrice, sugarContent);
             drink.setNewPrice(drink.calculatePrice());
             snackCollection.put(snackID, drink);
-            System.out.println(drink);
+            // System.out.println(drink);
         }
         catch (InvalidSnackException e)
         {
@@ -147,7 +147,7 @@ public class SnackShop {
             Drink drink = new Drink(snackID, name, basePrice);
             drink.setNewPrice(drink.calculatePrice());
             snackCollection.put(snackID, drink);
-            System.out.println(drink);
+            // System.out.println(drink);
         }
         catch (InvalidSnackException e)
         {
@@ -184,7 +184,8 @@ public class SnackShop {
                 return true;
             }
             catch (InvalidCustomerException | InvalidBalanceException |
-                     InvalidSnackException e) {
+                     InvalidSnackException e)
+            {
                 System.out.println(e.getMessage());
             }
         }
@@ -270,6 +271,26 @@ public class SnackShop {
                 }
             }
             return 0;
+        }
+
+        /* Reason for using this method is from the feedback it states that we
+        should not really be printing out information within our methods
+        and instead return and then print them out in our main method.
+         */
+    public String displayAllAccounts()
+        {
+            StringBuilder allCustomersAccountsAsStrings = new StringBuilder();
+            for(Customer customer : customerAccounts.values())
+            {
+                /* Firstly we check for each customers values within our customer
+                accounts hashmap
+                 */
+                String customerAccountAsString = customer.toString();
+                allCustomersAccountsAsStrings.append(customerAccountAsString);
+            }
+            // Return all the customer accounts within the stringbuilder as a
+            // string since we are in string builder format.
+            return allCustomersAccountsAsStrings.toString();
         }
 
 // Getters and Setters for our Shop name.

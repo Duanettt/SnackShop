@@ -35,7 +35,6 @@ public class StaffCustomer extends Customer
     {
         boolean balanceIsLessThanStaffDiscountedPrice = (balance <
                 calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
-        int newBalance = 0;
 
         try
         {
@@ -47,13 +46,15 @@ public class StaffCustomer extends Customer
             double staffDiscountedSnackPrice = (calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
             /* Updated: Removed the else since, no need to add an else statement
              */
+            int newBalance = 0;
             newBalance = Math.round(balance -= (int) staffDiscountedSnackPrice);
+            return newBalance;
         }
         catch (InvalidBalanceException e)
         {
             System.out.println(e.getMessage());
         }
-        return newBalance;
+        return 0;
     }
 
     private double calculateDiscountFromDept()
@@ -124,9 +125,9 @@ public class StaffCustomer extends Customer
 
     @Override
     public String toString() {
-        return "Customer with accountID of: " + accountID + "is a member of " +
+        return "Customer with accountID of: " + accountID + " is a member of " +
                 "staff, at this specific school department: " + staffDepartment
-                + ", their name is: " + name + " has a balance of: " + balance;
+                + ", their name is: " + name + " they have a balance of: " + balance + "\n";
     }
     public static void main(String[] args) throws InvalidBalanceException {
         StaffCustomer test = new StaffCustomer(500, "Duaine", "A123456", "bio");

@@ -60,8 +60,8 @@ public class StudentCustomer extends Customer
 
     @Override
     public String toString() {
-        return "Customer with accountID of: " + accountID + "is a Student. "
-                + "Their name is: " + name + " has a balance of: " + balance;
+        return "Customer with accountID of: " + accountID + " is a Student. "
+                + "Their name is: " + name + " and they have a balance of: " + balance + "\n";
     }
 
     // UPDATE: Moved this function to the customer class since using it in both student

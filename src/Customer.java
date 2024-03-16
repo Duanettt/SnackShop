@@ -94,8 +94,8 @@ public class Customer
     @Override
     public String toString()
     {
-        return "Your new Customer is: " + name + "has a balance of " + balance +
-                "and accountID: " + accountID;
+        return "Customer with accountID of: " + accountID + " is a normal customer" +
+             ", their name is: " + name + " they have a balance of: " + balance + "\n";
 
     }
 
