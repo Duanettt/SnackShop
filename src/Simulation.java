@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -57,58 +58,8 @@ public class Simulation {
     public void processAndAddCustomers(String[] customerLine, SnackShop snackShop) {
         String accountID = customerLine[0];
         String name = customerLine[1];
-        int balance = 0;
-        try
-        {
-            balance = Integer.parseInt(customerLine[2]);
-        }
-        catch(NumberFormatException e)
-        {
-            balance = Integer.parseInt(customerLine[4]);
-        }
-
-        if (customerLine.length > 3) {
-            switch (customerLine[3].toUpperCase())
-            {
-                case "STUDENT":
-                    try
-                    {
-                        snackShop.addStudentCustomers(balance, name, accountID);
-                    } catch (NumberFormatException e) {
-                        snackShop.addStudentCustomers(name, accountID);
-                    }
-                    break;
-                case "STAFF":
-                    /*
-                    So with this code I had a lot of trouble creating this due to
-                    the constructor setting a balance, for example Katya Vickers who did
-                    not have a department but did have a balance, of zero.
-                    What I did to correct this was again utilize try catches
-                    we set a default department of other and if our customer's is greater than
-                    5 we can try to assign the 4th index pos value of the line to our department
-                    however if this throws an arrayindexoutofboundsexception we can catch it
-                    and set jus
-                     */
-                    String staffDepartment = "OTHER";
-                    if (customerLine.length >= 5)
-                    {
-                        try
-                        {
-                            staffDepartment = customerLine[4];
-                        } catch (ArrayIndexOutOfBoundsException ex)
-                        {
-                            snackShop.addStaffCustomers(name, accountID, staffDepartment);
-                        }
-                    }
-                    snackShop.addStaffCustomers(balance, name, accountID, staffDepartment);
-                    break;
-                default:
-                    System.out.println("Something went wrong..");
-            }
-        } else
-        {
-            snackShop.addCustomer(balance, name, accountID);
-        }
+        int balance = Integer.parseInt(customerLine[2]);
+        addNewCustomer(customerLine, snackShop, accountID, name, balance, 3);
     }
 
     public void processAndAddSnacks(String[] snackLine, SnackShop snackShop)
@@ -154,8 +105,10 @@ public class Simulation {
             {
                 customerID = transactionLines[1];
                 String snackID = transactionLines[2];
-                snackShop.getSnack(snackID);
-                snackShop.getCustomer(customerID);
+                System.out.println(snackShop.getCustomer(customerID).getName());
+                System.out.println(snackShop.getCustomer(customerID).getBalance());
+                snackShop.processPurchase(customerID, snackID);
+                System.out.println(snackShop.getCustomer(customerID).getBalance());
             }
             catch(InvalidCustomerException | InvalidSnackException e)
             {
@@ -168,7 +121,10 @@ public class Simulation {
             {
                 customerID = transactionLines[1];
                 int depositValue = Integer.parseInt(transactionLines[2]);
+                System.out.println(snackShop.getCustomer(customerID).getBalance());
                 snackShop.getCustomer(customerID).addFunds(depositValue);
+                System.out.println(snackShop.getCustomer(customerID).getBalance());
+                System.out.println(snackShop.getCustomer(customerID).getName());
             }
             catch(InvalidCustomerException e)
             {
@@ -177,19 +133,54 @@ public class Simulation {
         }
         else if(instruction.contains("NEW_CUSTOMER"))
         {
-            ArrayList<String> transactionLinesAsList = new ArrayList<>(Arrays.asList(transactionLines));
-            transactionLinesAsList.remove(0);
-            String[] transactionLinesToCustomerLines = transactionLinesAsList.toArray(new String[0]);
-            try
+            String[] customerInfo = Arrays.copyOfRange(transactionLines, 1, transactionLines.length);
+            String accountID = customerInfo[0];
+            String name = customerInfo[1];
+            int balance = Integer.parseInt(transactionLines[customerInfo.length]);
+            addNewCustomer(customerInfo, snackShop, accountID, name, balance, 2);
+            System.out.println(snackShop.getCustomer(accountID).getBalance());
+            System.out.println(snackShop.getCustomer(accountID).getName());
+        }
+
+    }
+
+    private void addNewCustomer(String[] customerInfo, SnackShop snackShop, String accountID, String name, int balance, int determinant)
+    {
+        if (customerInfo.length > 3)
+        {
+            if (customerInfo[determinant].equalsIgnoreCase("STUDENT"))
             {
-                processAndAddCustomers(transactionLinesToCustomerLines, snackShop);
+                try
+                {
+                    snackShop.addStudentCustomers(balance, name, accountID);
+                } catch (NumberFormatException e)
+                {
+                    snackShop.addStudentCustomers(name, accountID);
+                }
             }
-            catch(InvalidCustomerException e)
+            else if(customerInfo[determinant].equalsIgnoreCase("STAFF"))
             {
-                System.out.println(e.getMessage());
+                String staffDepartment = "OTHER";
+                if (customerInfo.length >= 5)
+                {
+                    try
+                    {
+                        staffDepartment = customerInfo[4];
+                    } catch (ArrayIndexOutOfBoundsException ex)
+                    {
+                        snackShop.addStaffCustomers(name, accountID, staffDepartment);
+                    }
+                }
+                snackShop.addStaffCustomers(balance, name, accountID, staffDepartment);
             }
         }
+        else
+        {
+            snackShop.addCustomer(balance, name, accountID);
+        }
     }
+
+
 
     public void simulateShopping(SnackShop snackShop, File transactionFile)
     {

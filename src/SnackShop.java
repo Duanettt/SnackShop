@@ -306,11 +306,19 @@ public class SnackShop {
 
         public Customer getCustomer (String customerID) throws InvalidCustomerException
         {
+            if(customerAccounts.get(customerID) == null)
+            {
+                throw new InvalidSnackException("Invalid customerID: " + customerID + " is not part of our account database.");
+            }
             return customerAccounts.get(customerID);
         }
 
         public Snack getSnack (String snackID) throws InvalidSnackException
         {
+            if(snackCollection.get(snackID) == null)
+            {
+                throw new InvalidSnackException("Invalid snackID: " + snackID + " is not part of our snack collection.");
+            }
             return snackCollection.get(snackID);
         }
 
