@@ -72,6 +72,12 @@ public class Food extends Snack {
     }
 
     @Override
+    public int getNewPrice()
+    {
+        return newPrice;
+    }
+
+    @Override
     public String toString() {
         return "Food is " + name + " and is " + isHot + ",our original price is " + basePrice +
                 " and our new price is " + newPrice + ".The snackID is " + snackID;

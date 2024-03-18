@@ -3,10 +3,30 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Simulation {
+public class Simulation
+{
+
+    public static void main(String[] args)
+    {
+        Simulation sim = new Simulation();
+        sim.runSimulation();
+    }
+
+    public void runSimulation()
+    {
+        File snackFile = makeFileObject("snacks.txt");
+        File customerFile = makeFileObject("customers.txt");
+        File transactionFile = makeFileObject("transactions.txt");
+        SnackShop Tesco = initialiseShop("Tesco", snackFile, customerFile);
+        System.out.println(Tesco.displayAllAccounts());
+        System.out.println(Tesco.calculateMedianCustomerBalance());
+        System.out.println(Tesco.findLargestBasePrice());
+        simulateShopping(Tesco, transactionFile);
+    }
 
     public SnackShop initialiseShop(String shopName, File snackFile, File customerFile)
     {
@@ -59,7 +79,7 @@ public class Simulation {
         String accountID = customerLine[0];
         String name = customerLine[1];
         int balance = Integer.parseInt(customerLine[2]);
-        addNewCustomer(customerLine, snackShop, accountID, name, balance, 3);
+        addNewCustomer(customerLine, snackShop, accountID, name, balance, 3, customerLine.length - 1);
     }
 
     public void processAndAddSnacks(String[] snackLine, SnackShop snackShop)
@@ -99,20 +119,28 @@ public class Simulation {
         // Just be wasted memory (I think..) if i kept creating customerID variables
         // in every try catch statement..
         String customerID;
+        Customer customer;
+        Snack snack;
         if(instruction.contains("PURCHASE"))
         {
             try
             {
                 customerID = transactionLines[1];
                 String snackID = transactionLines[2];
-                System.out.println(snackShop.getCustomer(customerID).getName());
-                System.out.println(snackShop.getCustomer(customerID).getBalance());
+                customer = snackShop.getCustomer(customerID);
+                snack = snackShop.getSnack(snackID);
+                System.out.println(customer);
+                System.out.println("Original balance: " + customer.getBalance()
+                + " Base snack price: " + snack.getBasePrice()
+                        + ", new snack price: " + snack.getNewPrice());
                 snackShop.processPurchase(customerID, snackID);
-                System.out.println(snackShop.getCustomer(customerID).getBalance());
+                System.out.println("Transaction successful: " + customer.getName()
+                + " has bought " + snack.getName() + " and now has a balance of: "
+                + customer.getBalance());
             }
-            catch(InvalidCustomerException | InvalidSnackException e)
+            catch(InvalidCustomerException | InvalidSnackException  | InvalidBalanceException e)
             {
-                System.out.println(e.getMessage());
+                System.out.println("Transaction unsuccessful: " + e.getMessage());
             }
         }
         else if(instruction.contains("ADD_FUNDS"))
@@ -121,34 +149,45 @@ public class Simulation {
             {
                 customerID = transactionLines[1];
                 int depositValue = Integer.parseInt(transactionLines[2]);
-                System.out.println(snackShop.getCustomer(customerID).getBalance());
-                snackShop.getCustomer(customerID).addFunds(depositValue);
-                System.out.println(snackShop.getCustomer(customerID).getBalance());
-                System.out.println(snackShop.getCustomer(customerID).getName());
+                customer = snackShop.getCustomer(customerID);
+                System.out.println("Original balance: " + customer.getBalance());
+                customer.addFunds(depositValue);
+                System.out.println("Transaction successful: " + customer.getName()
+                        + " now has a balance of: "
+                        + customer.getBalance());
             }
             catch(InvalidCustomerException e)
             {
-                System.out.println(e.getMessage());
+                System.out.println("Transaction failed: " + e.getMessage());
+
             }
         }
         else if(instruction.contains("NEW_CUSTOMER"))
         {
-            String[] customerInfo = Arrays.copyOfRange(transactionLines, 1, transactionLines.length);
-            String accountID = customerInfo[0];
-            String name = customerInfo[1];
-            int balance = Integer.parseInt(transactionLines[customerInfo.length]);
-            addNewCustomer(customerInfo, snackShop, accountID, name, balance, 2);
-            System.out.println(snackShop.getCustomer(accountID).getBalance());
-            System.out.println(snackShop.getCustomer(accountID).getName());
+            try
+            {
+                String[] customerInfo = Arrays.copyOfRange(transactionLines, 1, transactionLines.length);
+                String accountID = customerInfo[0];
+                String name = customerInfo[1];
+                int balance = Integer.parseInt(transactionLines[customerInfo.length]);
+                addNewCustomer(customerInfo, snackShop, accountID, name, balance, 2, 3);
+                System.out.println(snackShop.getCustomer(accountID).getBalance());
+                System.out.println(snackShop.getCustomer(accountID).getName());
+            }
+            catch(InvalidCustomerException e)
+            {
+                System.out.println("Transaction unsuccessful: " + e.getMessage());
+            }
         }
 
     }
 
-    private void addNewCustomer(String[] customerInfo, SnackShop snackShop, String accountID, String name, int balance, int determinant)
+    private void addNewCustomer(String[] customerInfo, SnackShop snackShop, String accountID, String name, int balance,
+                                int customerTypeIndexPos, int staffTypeIndexPos)
     {
         if (customerInfo.length > 3)
         {
-            if (customerInfo[determinant].equalsIgnoreCase("STUDENT"))
+            if (customerInfo[customerTypeIndexPos].equalsIgnoreCase("STUDENT"))
             {
                 try
                 {
@@ -158,14 +197,14 @@ public class Simulation {
                     snackShop.addStudentCustomers(name, accountID);
                 }
             }
-            else if(customerInfo[determinant].equalsIgnoreCase("STAFF"))
+            else if(customerInfo[customerTypeIndexPos].equalsIgnoreCase("STAFF"))
             {
                 String staffDepartment = "OTHER";
                 if (customerInfo.length >= 5)
                 {
                     try
                     {
-                        staffDepartment = customerInfo[4];
+                        staffDepartment = customerInfo[staffTypeIndexPos];
                     } catch (ArrayIndexOutOfBoundsException ex)
                     {
                         snackShop.addStaffCustomers(name, accountID, staffDepartment);
@@ -200,4 +239,5 @@ public class Simulation {
             e.printStackTrace();
         }
     }
+
 }

@@ -5,6 +5,8 @@ public abstract class Snack
     protected String name;
     protected int basePrice;
 
+    protected int newPrice;
+
     Snack(String snackID, String name, int basePrice) throws InvalidSnackException
     {
         try
@@ -70,6 +72,11 @@ public abstract class Snack
     public int getBasePrice()
     {
         return basePrice;
+    }
+
+    protected int getNewPrice()
+    {
+        return newPrice;
     }
 
     public abstract int calculatePrice();

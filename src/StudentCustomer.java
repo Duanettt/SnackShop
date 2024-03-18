@@ -24,7 +24,7 @@ public class StudentCustomer extends Customer
     } */
 
     @Override
-    public int chargeAccount(int snackPrice)
+    public void chargeAccount(int snackPrice) throws InvalidBalanceException
     {
         /* If my balance + the negative balance is less than our snack price when buying a snack
         we essentially just throw our invalidBalanceException. This also takes into account after our
@@ -32,36 +32,26 @@ public class StudentCustomer extends Customer
         and the studentDiscountNum which can be set by utilizing out setter function.
          */
         // Conditional variable for my understanding:
-        boolean balanceLessThanDiscountedPrice = (balance + maxNegativeBalance) < maxNegativeBalance;
-                calculateDiscountedPrice(snackPrice, studentDiscountNum);
+        double newSnackPrice = calculateDiscountedPrice(snackPrice, studentDiscountNum);
+        boolean balanceLessThanDiscountedPrice = (balance - newSnackPrice ) < maxNegativeBalance;
 
         int newBalance = 0;
-
-        try
+        if(balanceLessThanDiscountedPrice)
         {
-            if(balanceLessThanDiscountedPrice)
-            {
-                throw new InvalidBalanceException("Insufficient balance, your balance: " +
-                        balance);
-            }
-            newBalance = balance - snackPrice;
+            throw new InvalidBalanceException("Insufficient balance," + getName()
+                    + " balance: " + balance + "the snack's price is: " + newSnackPrice);
         }
-        catch(InvalidBalanceException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        newBalance = (int) Math.ceil(balance - newSnackPrice);
         /* Updated: Removed the else since, no need to add an else statement
          */
         /* Changes our current customers balance */
         this.setBalance(newBalance);
-
-        return newBalance;
     }
 
     @Override
     public String toString() {
         return "Customer with accountID of: " + accountID + " is a Student. "
-                + "Their name is: " + name + " and they have a balance of: " + balance + "\n";
+                + "Their name is: " + name + " and they have a balance of: " + balance;
     }
 
     // UPDATE: Moved this function to the customer class since using it in both student

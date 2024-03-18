@@ -157,8 +157,7 @@ public class SnackShop {
     }
     // our processPurchase function:
 
-    public boolean processPurchase(String customerID, String snackID)
-    {
+    public boolean processPurchase(String customerID, String snackID) throws InvalidBalanceException {
         boolean customerAccountsAndSnackCollectionContainsIDS =
                 customerAccounts.containsKey(customerID) ||
                         snackCollection.containsKey(snackID);
@@ -176,18 +175,10 @@ public class SnackShop {
             UPDATE: Revisited slides and watched videos on exceptions relearnt multiple things
             which has enabled me to figure this out.
              */
-            try
-            {
                 Customer c = getCustomer(customerID);
                 Snack s = getSnack(snackID);
                 c.chargeAccount(s.getBasePrice());
                 return true;
-            }
-            catch (InvalidCustomerException | InvalidBalanceException |
-                     InvalidSnackException e)
-            {
-                System.out.println(e.getMessage());
-            }
         }
         return false;
     }

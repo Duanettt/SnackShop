@@ -103,6 +103,12 @@ public class Drink extends Snack
         this.newPrice = newPrice;
     }
 
+    @Override
+    public int getNewPrice()
+    {
+        return newPrice;
+    }
+
     public sugarContent getSugarContentLevel()
     {
         return sugarContentLevel;

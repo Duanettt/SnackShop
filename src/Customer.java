@@ -70,16 +70,19 @@ public class Customer
 
     }
 
-    public int chargeAccount(int snackPrice) throws InvalidBalanceException
+    public void chargeAccount(int snackPrice) throws InvalidBalanceException
     {
         if(balance < snackPrice)
         {
-            throw new InvalidBalanceException("Insufficient balance, your balance: " +
+            throw new InvalidBalanceException("Insufficient balance " + getName()
+                    + " balance: " +
                     balance);
         }
         /* Updated: Removed the else since, no need to add an else statement
          */
-        return balance -= snackPrice;
+        balance -= snackPrice;
+
+        this.setBalance(balance);
     }
 
     public double calculateDiscountedPrice(int snackPrice, double studentDiscountPercentage)
