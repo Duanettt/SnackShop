@@ -38,8 +38,8 @@ public class StudentCustomer extends Customer
         int newBalance = 0;
         if(balanceLessThanDiscountedPrice)
         {
-            throw new InvalidBalanceException("Insufficient balance," + getName()
-                    + " balance: " + balance + "the snack's price is: " + newSnackPrice);
+            throw new InvalidBalanceException("Insufficient balance, " + getName()
+                    + " balance: " + balance + " the snack's price is: " + newSnackPrice);
         }
         newBalance = (int) Math.ceil(balance - newSnackPrice);
         /* Updated: Removed the else since, no need to add an else statement

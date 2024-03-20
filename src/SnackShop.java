@@ -9,7 +9,7 @@ public class SnackShop {
      */
 
     /* My justified use in hashmaps:
-    The reason I'm using HashMaps is since I visualized the idea of our ID and customer Info like a door
+    The reason I'm using HashMaps is due to the idea of our ID and customer Info being like a door
      and a key. I was also told in the labs about them from a TA for a query I had on a project
      and luckily enough it applies to the CW. It saves a lot more lines of code so simplicity, It's an efficient
      lookup system. From C++ i learnt that HashMaps provide performance related advantages as well.
@@ -230,7 +230,7 @@ public class SnackShop {
             Test to actually calculate the median from this which is 400.
             Also clarifcation on values being added.
              */
-            System.out.println(customerBalances);
+//            System.out.println(customerBalances);
             int size = customerBalances.size();
             /*
             Finding the median.
@@ -249,8 +249,8 @@ public class SnackShop {
                     using math.round this now rounds to the nearest float.
                      */
 
-                    int medianPosition = (int) Math.ceil(((middle1 + middle2) / 2.0));
-                    return customerBalances.get(medianPosition);
+                    int median = (int) Math.ceil(((middle1 + middle2) / 2.0));
+                    return median;
                 }
                 else
                 {

@@ -39,9 +39,8 @@ public class StaffCustomer extends Customer
 
         if(balanceIsLessThanStaffDiscountedPrice)
         {
-            throw new InvalidBalanceException("Insufficient balance," + getName()
-                    + " balance: " + balance + "the snack's price is: " +
-                    staffDiscountedSnackPrice);
+            throw new InvalidBalanceException("Insufficient balance, " + getName()
+                    + " balance: " + balance + " the snack's price is: " + staffDiscountedSnackPrice);
         }
         /* Updated: Removed the else since, no need to add an else statement
          */

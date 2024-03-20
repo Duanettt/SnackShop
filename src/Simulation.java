@@ -22,9 +22,9 @@ public class Simulation
         File customerFile = makeFileObject("customers.txt");
         File transactionFile = makeFileObject("transactions.txt");
         SnackShop Tesco = initialiseShop("Tesco", snackFile, customerFile);
-        System.out.println(Tesco.displayAllAccounts());
-        System.out.println(Tesco.calculateMedianCustomerBalance());
-        System.out.println(Tesco.findLargestBasePrice());
+//        System.out.println(Tesco.displayAllAccounts());
+//        System.out.println(Tesco.calculateMedianCustomerBalance());
+//        System.out.println(Tesco.findLargestBasePrice());
         simulateShopping(Tesco, transactionFile);
     }
 
@@ -182,9 +182,18 @@ public class Simulation
 
     }
 
+    /*
+    The addNewCustomer function takes in 7 parameters our usual line and then
+    our index positions for determining where the customerType is within our string
+    and if there is a staff type where it would be in this string.
+     */
+
     private void addNewCustomer(String[] customerInfo, SnackShop snackShop, String accountID, String name, int balance,
                                 int customerTypeIndexPos, int staffTypeIndexPos)
     {
+        /* If the line within our transactions.txt file is greater than 3
+        we do our check for if its a student or a staff member
+         */
         if (customerInfo.length > 3)
         {
             if (customerInfo[customerTypeIndexPos].equalsIgnoreCase("STUDENT"))
@@ -233,6 +242,13 @@ public class Simulation
                 String[] transactionLineValues = transactionLine.split(",");
                 processTransactions(transactionLineValues, snackShop);
             }
+            System.out.println("The largest base price in our snack collection: " + snackShop.findLargestBasePrice());
+            System.out.println("The median customer balance out of customers in the " +
+                            "shop: " + snackShop.getShopName() + " , the median " +
+                    "balance: " + snackShop.calculateMedianCustomerBalance());
+            System.out.println("The number of negative accounts in the snack shop, " +
+                    snackShop.getShopName() + " is: "
+                    + snackShop.countNegativeAccount());
         }
         catch (IOException e)
         {
