@@ -24,7 +24,7 @@ public class StudentCustomer extends Customer
     } */
 
     @Override
-    public void chargeAccount(int snackPrice) throws InvalidBalanceException
+    public int chargeAccount(int snackPrice) throws InvalidBalanceException
     {
         /* If my balance + the negative balance is less than our snack price when buying a snack
         we essentially just throw our invalidBalanceException. This also takes into account after our
@@ -46,6 +46,8 @@ public class StudentCustomer extends Customer
          */
         /* Changes our current customers balance */
         this.setBalance(newBalance);
+
+        return (int) Math.ceil(newSnackPrice);
     }
 
     @Override

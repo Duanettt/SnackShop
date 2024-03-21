@@ -77,17 +77,17 @@ public class Drink extends Snack
     public sugarContent sugarContentConversion(String sugarContent)
     {
         // make each sugarcontent input lower case.
-        String input = sugarContent.toLowerCase();
+
         // Do conditional checks for each sugarContent and return the value.
-        if (input.contains("high"))
+        if (sugarContent.equalsIgnoreCase("high"))
         {
             return Drink.sugarContent.HIGH;
         }
-        else if (input.contains("low"))
+        else if (sugarContent.equalsIgnoreCase("low"))
         {
             return Drink.sugarContent.LOW;
         }
-        else if (input.contains("none"))
+        else if (sugarContent.equalsIgnoreCase("none"))
         {
             return Drink.sugarContent.NONE;
         }

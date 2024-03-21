@@ -31,7 +31,7 @@ public class Food extends Snack {
 
     public hotOrCold determineFoodHotOrCold(String hotOrCold)
     {
-        hotOrCold.toLowerCase();
+        hotOrCold = hotOrCold.toLowerCase();
 
         switch(hotOrCold)
         {

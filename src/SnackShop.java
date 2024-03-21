@@ -157,28 +157,32 @@ public class SnackShop {
     }
     // our processPurchase function:
 
-    public boolean processPurchase(String customerID, String snackID) throws InvalidBalanceException {
+    public boolean processPurchase(String customerID, String snackID) throws TransactionException
+    {
         boolean customerAccountsAndSnackCollectionContainsIDS =
                 customerAccounts.containsKey(customerID) ||
                         snackCollection.containsKey(snackID);
 
         if (customerAccountsAndSnackCollectionContainsIDS)
         {
-                /*
-                This code is what the code below does I did not really want to keep
-                creating variables but for readability I chose the code below this comment.
-                Both do the same thing just which one is better for
-                readability.
-                getCustomer(customerID).chargeAccount(getSnack(snackID).getBasePrice());
-                */
             /*
             UPDATE: Revisited slides and watched videos on exceptions relearnt multiple things
             which has enabled me to figure this out.
              */
+            try
+            {
                 Customer c = getCustomer(customerID);
                 Snack s = getSnack(snackID);
-                c.chargeAccount(s.getBasePrice());
+                // We will then charge the customer and charge account will return the value for turnover
+                int newTurnover = this.turnover += c.chargeAccount(s.basePrice);
+                setTurnover(newTurnover);
                 return true;
+            }
+            catch ( InvalidCustomerException | InvalidSnackException | InvalidBalanceException e)
+            {
+
+                throw new TransactionException("Transaction could not be processed: " + e.getMessage());
+            }
         }
         return false;
     }
@@ -285,17 +289,27 @@ public class SnackShop {
         }
 
 // Getters and Setters for our Shop name.
-        public String getShopName()
-        {
-            return shopName;
-        }
+    public String getShopName()
+{
+    return shopName;
+}
 
-        public void setShopName (String shopName)
-        {
-            this.shopName = shopName;
-        }
+    public void setShopName (String shopName)
+    {
+        this.shopName = shopName;
+    }
 
-        public Customer getCustomer (String customerID) throws InvalidCustomerException
+    public int getTurnover()
+    {
+        return turnover;
+    }
+
+    public void setTurnover(int turnover)
+    {
+        this.turnover = turnover;
+    }
+
+    public Customer getCustomer (String customerID) throws InvalidCustomerException
         {
             if(customerAccounts.get(customerID) == null)
             {

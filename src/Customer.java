@@ -70,7 +70,7 @@ public class Customer
 
     }
 
-    public void chargeAccount(int snackPrice) throws InvalidBalanceException
+    public int chargeAccount(int snackPrice) throws InvalidBalanceException
     {
         if(balance < snackPrice)
         {
@@ -83,14 +83,16 @@ public class Customer
         balance -= snackPrice;
 
         this.setBalance(balance);
+
+        return snackPrice;
     }
 
-    public double calculateDiscountedPrice(int snackPrice, double studentDiscountPercentage)
+    public double calculateDiscountedPrice(int snackPrice, double discountPercentage)
     {
         /* We do our studentDiscountPercentage e.g 5/100 which gives us 0.05 we then do 1 - 0.05 to get 0.95
         we then times this by our price to get our discounted price for our snack.
          */
-        return snackPrice * ( 1 - (studentDiscountPercentage / 100.0));
+        return snackPrice * ( 1 - (discountPercentage / 100.0));
     }
 
 
@@ -98,7 +100,7 @@ public class Customer
     public String toString()
     {
         return "Customer with accountID of: " + accountID + " is a normal customer" +
-             ", their name is: " + name + " they have a balance of: " + balance + "\n";
+             ", their name is: " + name + " they have a balance of: " + balance;
 
     }
 

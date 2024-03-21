@@ -31,11 +31,12 @@ public class StaffCustomer extends Customer
     }
 
     @Override
-    public void chargeAccount(int snackPrice) throws InvalidBalanceException
+    public int chargeAccount(int snackPrice) throws InvalidBalanceException
     {
-        boolean balanceIsLessThanStaffDiscountedPrice = (balance <
-                calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
         double staffDiscountedSnackPrice = (calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+
+        boolean balanceIsLessThanStaffDiscountedPrice = (balance <
+               staffDiscountedSnackPrice);
 
         if(balanceIsLessThanStaffDiscountedPrice)
         {
@@ -48,6 +49,7 @@ public class StaffCustomer extends Customer
         newBalance = Math.round(balance -= (int) staffDiscountedSnackPrice);
 
         this.setBalance(newBalance);
+        return (int) Math.ceil(staffDiscountedSnackPrice);
     }
 
     private double calculateDiscountFromDept()
@@ -81,21 +83,19 @@ public class StaffCustomer extends Customer
     }
     private schoolDepartment determineStaffDepartment(String department)
     {
-        String departmentUpperCase = department.toUpperCase();
-
-        if (departmentUpperCase.contains("CMP"))
+        if (department.equalsIgnoreCase("CMP"))
         {
             return schoolDepartment.CMP;
         }
-        else if (departmentUpperCase.contains("BIO"))
+        else if (department.equalsIgnoreCase("BIO"))
         {
             return schoolDepartment.BIO;
         }
-        else if (departmentUpperCase.contains("MTH"))
+        else if (department.equalsIgnoreCase("MTH"))
         {
             return schoolDepartment.MTH;
         }
-        else if (departmentUpperCase.contains("OTHER"))
+        else if (department.equalsIgnoreCase("OTHER"))
         {
             return schoolDepartment.OTHER;
         }

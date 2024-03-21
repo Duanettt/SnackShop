@@ -125,6 +125,11 @@ public class Simulation
         {
             try
             {
+                /* Here we gain our customerID and snackID and place them in our processPurchase we also need these
+                in order to print out information. I have to catch InvalidSnackException and CustomerException since
+                the methods i'm using to get them throw these exceptions aswell... So we are not only doing exception
+                handling in the processPurchase part.
+                 */
                 customerID = transactionLines[1];
                 String snackID = transactionLines[2];
                 customer = snackShop.getCustomer(customerID);
@@ -138,9 +143,9 @@ public class Simulation
                 + " has bought " + snack.getName() + " and now has a balance of: "
                 + customer.getBalance());
             }
-            catch(InvalidCustomerException | InvalidSnackException  | InvalidBalanceException e)
+            catch(InvalidSnackException | InvalidCustomerException | TransactionException e)
             {
-                System.out.println("Transaction unsuccessful: " + e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
         else if(instruction.contains("ADD_FUNDS"))
@@ -158,7 +163,7 @@ public class Simulation
             }
             catch(InvalidCustomerException e)
             {
-                System.out.println("Transaction failed: " + e.getMessage());
+                System.out.println("Transaction unsuccessful: " + e.getMessage() + "\n");
 
             }
         }
@@ -166,17 +171,17 @@ public class Simulation
         {
             try
             {
+                // The copies of range method allows me to specify which parts of the line I need.
                 String[] customerInfo = Arrays.copyOfRange(transactionLines, 1, transactionLines.length);
                 String accountID = customerInfo[0];
                 String name = customerInfo[1];
                 int balance = Integer.parseInt(transactionLines[customerInfo.length]);
                 addNewCustomer(customerInfo, snackShop, accountID, name, balance, 2, 3);
-                System.out.println(snackShop.getCustomer(accountID).getBalance());
-                System.out.println(snackShop.getCustomer(accountID).getName());
+                System.out.println("Transaction successful, NEW CUSTOMER ADDED!: " + name + " with a balance of, " + balance);
             }
             catch(InvalidCustomerException e)
             {
-                System.out.println("Transaction unsuccessful: " + e.getMessage());
+                System.out.println("Transaction unsuccessful: " + e.getMessage() + "\n");
             }
         }
 
@@ -214,7 +219,7 @@ public class Simulation
                     try
                     {
                         staffDepartment = customerInfo[staffTypeIndexPos];
-                    } catch (ArrayIndexOutOfBoundsException ex)
+                    } catch (ArrayIndexOutOfBoundsException e)
                     {
                         snackShop.addStaffCustomers(name, accountID, staffDepartment);
                     }
@@ -249,6 +254,7 @@ public class Simulation
             System.out.println("The number of negative accounts in the snack shop, " +
                     snackShop.getShopName() + " is: "
                     + snackShop.countNegativeAccount());
+            System.out.println("The turnover for " + snackShop.getShopName() + " is: " + snackShop.getTurnover());
         }
         catch (IOException e)
         {
