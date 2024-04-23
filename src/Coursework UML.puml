@@ -1,0 +1,166 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Customer {
+    - balance: int
+    - name: String
+    - accountID: String
+    {abstract} + chargeAccount(int): int
+    + calculateDiscountedPrice(int, double): double
+    {abstract} + toString(): String
+    + addFunds(int): int
+    + getBalance(): int
+    + setBalance(int): void
+    + getName(): String
+    + getAccountID(): String
+}
+
+class StudentCustomer {
+    - maxNegativeBalance: int
+    - studentDiscountNum: int
+    + StudentCustomer(int, String, String)
+    + StudentCustomer(String, String)
+    + chargeAccount(int): int
+    + toString(): String
+    + setStudentDiscountNum(int): void
+    + getMaxNegativeBalance(): int
+    + getDiscountAmount(): int
+    + setMaxNegativeBalance(int): void
+    {static} - calculateDiscountedPrice(int, double): double
+}
+
+class StaffCustomer {
+    enum schoolDepartment {CMP, BIO, MTH, OTHER}
+    - staffDepartment: schoolDepartment
+    + StaffCustomer(int, String, String, String)
+    + StaffCustomer(String, String, String)
+    + chargeAccount(int): int
+    - calculateDiscountFromDept(): double
+    - determineStaffDepartment(String): schoolDepartment
+    + getStaffDepartment(): schoolDepartment
+    + setStaffDepartment(schoolDepartment): void
+    + toString(): String
+}
+
+class SnackShop {
+    - customerAccounts: HashMap<String, Customer>
+    - snackCollection: HashMap<String, Snack>
+    - shopName: String
+    - turnover: int
+    + SnackShop(String)
+    + addCustomer(int, String, String): void
+    + addStudentCustomers(int, String, String): void
+    + addStudentCustomers(String, String): void
+    + addStaffCustomers(int, String, String, String): void
+    + addStaffCustomers(String, String, String): void
+    + addFood(String, String, int, String): void
+    + addDrink(String, String, int, String): void
+    + addDrink(String, String, int): void
+    + processPurchase(String, String): boolean
+    + findLargestBasePrice(): int
+    + countNegativeAccount(): int
+    + calculateMedianCustomerBalance(): int
+    + displayAllAccounts(): String
+    + getShopName(): String
+    + setShopName(String): void
+    + getTurnover(): int
+    + setTurnover(int): void
+    + getCustomer(String): Customer
+    + getSnack(String): Snack
+}
+
+class Simulation {
+    + main(String[]): void
+    + runSimulation(): void
+    + initialiseShop(String, File, File): SnackShop
+    + makeFileObject(String): File
+    + processAndAddCustomers(String[], SnackShop): void
+    + processAndAddSnacks(String[], SnackShop): void
+    + processTransactions(String[], SnackShop): void
+    + addNewCustomer(String[], SnackShop, String, String, int, int, int): void
+    + simulateShopping(SnackShop, File): void
+}
+
+
+abstract class Snack {
+    - snackID: String
+    - name: String
+    - basePrice: int
+    - newPrice: int
+
+    {abstract} + calculatePrice(): int
+    {abstract} # getSnackIDCharAt(position: int): char
+    # validateSnack(snackID: String, price: int): void
+    + getSnackID(): String
+    + getName(): String
+    + getBasePrice(): int
+    - getNewPrice(): int
+}
+
+enum hotOrCold {
+    HOT
+    COLD
+}
+
+class Food {
+    - isHot: hotOrCold
+    - newPrice: int
+    - surcharge: final double
+
+    + determineFoodHotOrCold(hotOrCold: String): hotOrCold
+    + isHot(): hotOrCold
+    + setNewPrice(newPrice: int): void
+    + getNewPrice(): int
+    + toString(): String
+    + Food(snackID: String, name: String, basePrice: int, isHot: String) throws InvalidSnackException
+    + calculatePrice(): int
+}
+
+class Drink {
+    - sugarContentLevel: sugarContent
+    - newPrice: int
+    - firstLetterIsEqualToD: boolean
+
+    + sugarContentConversion(sugarContent: String): sugarContent
+    + setNewPrice(newPrice: int): void
+    + getNewPrice(): int
+    + getSugarContentLevel(): sugarContent
+    + toString(): String
+    + Drink(snackID: String, name: String, basePrice: int, sugarContent: String) throws InvalidSnackException
+    + calculatePrice(): int
+}
+
+enum sugarContent {
+    HIGH
+    LOW
+    NONE
+}
+
+
+class InvalidBalanceException {
+    + InvalidBalanceException(message: String)
+}
+
+class InvalidCustomerException {
+    + InvalidCustomerException(message: String)
+}
+
+class InvalidSnackException {
+    + InvalidSnackException(message: String)
+}
+
+class TransactionException {
+    + TransactionException(message: String)
+}
+
+
+Snack <|-- Food
+Snack <|-- Drink
+
+Customer <|-- StudentCustomer
+Customer <|-- StaffCustomer
+Customer *-- "1" SnackShop
+Simulation *-- SnackShop
+
+@enduml

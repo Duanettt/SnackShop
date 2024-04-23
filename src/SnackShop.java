@@ -46,10 +46,9 @@ public class SnackShop {
             Customer customer = new Customer(balance, name, accountID);
             customerAccounts.put(accountID, customer);
             // System.out.println(customer);
-        }
-        catch (InvalidCustomerException e)
+        } catch (InvalidCustomerException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -63,7 +62,7 @@ public class SnackShop {
         }
         catch (InvalidCustomerException e)
         {
-            // System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
     }
@@ -78,7 +77,7 @@ public class SnackShop {
         }
         catch (InvalidCustomerException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
     }
@@ -93,7 +92,7 @@ public class SnackShop {
         }
         catch (InvalidCustomerException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -107,7 +106,7 @@ public class SnackShop {
         }
         catch (InvalidSnackException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -122,7 +121,7 @@ public class SnackShop {
         }
         catch (InvalidSnackException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -137,7 +136,7 @@ public class SnackShop {
         }
         catch (InvalidSnackException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
     public void addDrink(String snackID, String name, int basePrice)
@@ -151,7 +150,7 @@ public class SnackShop {
         }
         catch (InvalidSnackException e)
         {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
     }

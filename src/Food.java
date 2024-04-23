@@ -2,12 +2,12 @@ public class Food extends Snack {
 
     // Actual fields
     public enum hotOrCold {HOT, COLD}
-    private hotOrCold isHot;
+    private hotOrCold isHotOrCold;
 
     private int newPrice;
     public final double surcharge = 1.1;
 
-    Food(String snackID, String name, int basePrice, String isHot) throws InvalidSnackException
+    Food(String snackID, String name, int basePrice, String hotOrCold) throws InvalidSnackException
     {
         // Call our original instructor it will then do the normal Snack Checks to check if its id is valid
         super(snackID, name, basePrice);
@@ -20,7 +20,7 @@ public class Food extends Snack {
          */
         if (firstLetterIsEqualToF)
         {
-            this.isHot = determineFoodHotOrCold(isHot);
+            this.isHotOrCold = determineFoodHotOrCold(hotOrCold);
         } else {
             throw new InvalidSnackException("Your snackID: " + snackID + " is not valid we need F(Food) or" +
                     "D(Drink)..Please try again!");
@@ -63,7 +63,7 @@ public class Food extends Snack {
 
     public hotOrCold isHot()
     {
-        return isHot;
+        return isHotOrCold;
     }
 
     public void setNewPrice(int newPrice)
@@ -79,7 +79,7 @@ public class Food extends Snack {
 
     @Override
     public String toString() {
-        return "Food is " + name + " and is " + isHot + ",our original price is " + basePrice +
+        return "Food is " + name + " and is " + isHotOrCold + ",our original price is " + basePrice +
                 " and our new price is " + newPrice + ".The snackID is " + snackID;
     }
 
@@ -87,7 +87,10 @@ public class Food extends Snack {
     public static void main(String[] args) throws InvalidSnackException
     {
         Food test = new Food("G/8547328", "Popcorn", 200, "Hot");
-
+        Food test2 = new Food("F/1234567", "Plantain Chips", 200, "NCP");
+        Food test3 = new Food("F/12347", "Chicken Soup", 500, "COLD");
+        Food test4 = new Food("F21234567", "Jollof Rice", 200, "HOT");
+        Food test5 = new Food("F/1234567", "Jollof Rice", 200, "HOT");
     }
 }
 

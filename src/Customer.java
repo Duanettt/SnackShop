@@ -7,32 +7,18 @@ public class Customer
     // Constructors for customer
     public Customer(int balance, String name, String accountID) throws InvalidCustomerException
     {
-        try
-        {
-            validateCustomerInfo(balance,accountID);
-            this.name = name;
-            this.accountID = accountID;
-            this.balance = balance;
-        }
-        catch (InvalidCustomerException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        // DEPENDING ON THE EMAIL I GET BACK FROM JASON - WE'LL SEE IF WE NEED A TRY CATCH for both constructors.
+        validateCustomerInfo(balance,accountID);
+        this.name = name;
+        this.accountID = accountID;
+        this.balance = balance;
     }
     public Customer(String name, String accountID) throws InvalidCustomerException
     {
         balance = 0;
-        try
-        {
-            validateCustomerInfo(balance,accountID);
-            this.name = name;
-            this.accountID = accountID;
-        }
-        catch (InvalidCustomerException e)
-        {
-            System.out.println(e.getMessage());
-        }
-
+        validateCustomerInfo(balance,accountID);
+        this.name = name;
+        this.accountID = accountID;
     }
     // Methods for Customer.
 

@@ -23,8 +23,6 @@ public class Simulation
         File transactionFile = makeFileObject("transactions.txt");
         SnackShop Tesco = initialiseShop("Tesco", snackFile, customerFile);
 //        System.out.println(Tesco.displayAllAccounts());
-//        System.out.println(Tesco.calculateMedianCustomerBalance());
-//        System.out.println(Tesco.findLargestBasePrice());
         simulateShopping(Tesco, transactionFile);
     }
 
@@ -53,7 +51,7 @@ public class Simulation
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.err.println("FAILED TO INTIALISE SHOP: Input error.");
         }
 
         return snackShop;
@@ -69,7 +67,7 @@ public class Simulation
         }
         catch (NullPointerException e)
         {
-            e.printStackTrace();
+            System.err.println("FAILED TO CREATE FILE OBJECT.");
         }
 
         return file;
@@ -141,11 +139,11 @@ public class Simulation
                 snackShop.processPurchase(customerID, snackID);
                 System.out.println("Transaction successful: " + customer.getName()
                 + " has bought " + snack.getName() + " and now has a balance of: "
-                + customer.getBalance());
+                + customer.getBalance() + "\n");
             }
             catch(InvalidSnackException | InvalidCustomerException | TransactionException e)
             {
-                System.out.println(e.getMessage());
+                System.err.println("Transaction unsuccessful. " + e.getMessage() + "\n");
             }
         }
         else if(instruction.contains("ADD_FUNDS"))
@@ -157,13 +155,13 @@ public class Simulation
                 customer = snackShop.getCustomer(customerID);
                 System.out.println("Original balance: " + customer.getBalance());
                 customer.addFunds(depositValue);
-                System.out.println("Transaction successful: " + customer.getName()
-                        + " now has a balance of: "
-                        + customer.getBalance());
+                System.out.println("Transaction successful: " + customer.getName() + " has deposited " + depositValue
+                        + " and now has a balance of: "
+                        + customer.getBalance() + "\n");
             }
             catch(InvalidCustomerException e)
             {
-                System.out.println("Transaction unsuccessful: " + e.getMessage() + "\n");
+                System.err.println("Transaction unsuccessful. " + e.getMessage() + "\n");
 
             }
         }
@@ -177,11 +175,11 @@ public class Simulation
                 String name = customerInfo[1];
                 int balance = Integer.parseInt(transactionLines[customerInfo.length]);
                 addNewCustomer(customerInfo, snackShop, accountID, name, balance, 2, 3);
-                System.out.println("Transaction successful, NEW CUSTOMER ADDED!: " + name + " with a balance of, " + balance);
+                System.out.println("Transaction successful, NEW CUSTOMER ADDED!: " + name + " with a balance of, " + balance + "\n");
             }
             catch(InvalidCustomerException e)
             {
-                System.out.println("Transaction unsuccessful: " + e.getMessage() + "\n");
+                System.err.println("Transaction unsuccessful. " + e.getMessage() + "\n");
             }
         }
 
@@ -199,9 +197,13 @@ public class Simulation
         /* If the line within our transactions.txt file is greater than 3
         we do our check for if its a student or a staff member
          */
+
         if (customerInfo.length > 3)
         {
-            if (customerInfo[customerTypeIndexPos].equalsIgnoreCase("STUDENT"))
+            boolean customerTypeEqualsStudent = customerInfo[customerTypeIndexPos].equalsIgnoreCase("STUDENT");
+            boolean customerTypeEqualsStaff = customerInfo[customerTypeIndexPos].equalsIgnoreCase("STAFF");
+
+            if (customerTypeEqualsStudent)
             {
                 try
                 {
@@ -211,7 +213,7 @@ public class Simulation
                     snackShop.addStudentCustomers(name, accountID);
                 }
             }
-            else if(customerInfo[customerTypeIndexPos].equalsIgnoreCase("STAFF"))
+            else if(customerTypeEqualsStaff)
             {
                 String staffDepartment = "OTHER";
                 if (customerInfo.length >= 5)
@@ -258,7 +260,7 @@ public class Simulation
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.err.println("FAILED TO SIMULATE SHOP: Input error.");
         }
     }
 

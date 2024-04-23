@@ -48,7 +48,7 @@ public abstract class Snack
         if(firstCharIsNotALetter || secondCharIsNotASlash)
         {
             throw new InvalidSnackException("Your snackID: " + snackID + " has the wrong format, the format must be:" +
-                    "([F/D]/1234567)");
+                    "([F or D]/1234567)");
         }
         if(price < 0)
         {
@@ -84,7 +84,7 @@ public abstract class Snack
     // Test harness :)
     public static void main(String[] args)
     {
-
+        // Abstract class cannot use or do much here
     }
 }
 
