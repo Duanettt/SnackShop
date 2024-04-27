@@ -22,7 +22,7 @@ public class Simulation
         File customerFile = makeFileObject("customers.txt");
         File transactionFile = makeFileObject("transactions.txt");
         SnackShop Tesco = initialiseShop("Tesco", snackFile, customerFile);
-//        System.out.println(Tesco.displayAllAccounts());
+        //System.out.println(Tesco.displayAllAccounts());
         simulateShopping(Tesco, transactionFile);
     }
 
@@ -143,7 +143,7 @@ public class Simulation
             }
             catch(InvalidSnackException | InvalidCustomerException | TransactionException e)
             {
-                System.err.println("Transaction unsuccessful. " + e.getMessage() + "\n");
+                System.err.println("Transaction unsuccessful: " + e.getMessage() + "\n");
             }
         }
         else if(instruction.contains("ADD_FUNDS"))
@@ -161,7 +161,7 @@ public class Simulation
             }
             catch(InvalidCustomerException e)
             {
-                System.err.println("Transaction unsuccessful. " + e.getMessage() + "\n");
+                System.err.println("Transaction unsuccessful: " + e.getMessage() + "\n");
 
             }
         }
@@ -179,7 +179,7 @@ public class Simulation
             }
             catch(InvalidCustomerException e)
             {
-                System.err.println("Transaction unsuccessful. " + e.getMessage() + "\n");
+                System.err.println("Transaction unsuccessful: " + e.getMessage() + "\n");
             }
         }
 

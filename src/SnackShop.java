@@ -22,6 +22,7 @@ public class SnackShop {
     HashMap<String, Snack> snackCollection = new HashMap<>();
     private String shopName;
     private int turnover;
+
     public SnackShop(String shopName)
     {
         this.shopName = shopName;
@@ -41,118 +42,77 @@ public class SnackShop {
 
     public void addCustomer(int balance, String name, String accountID)
     {
-        try
+        if(validAccount(accountID, "customer"))
         {
             Customer customer = new Customer(balance, name, accountID);
             customerAccounts.put(accountID, customer);
-            // System.out.println(customer);
-        } catch (InvalidCustomerException e)
-        {
-            System.err.println(e.getMessage());
         }
     }
 
+
     public void addStudentCustomers(int balance, String name, String accountID)
     {
-        try
+        if(validAccount(accountID, "customer"))
         {
             Customer studentCustomer = new StudentCustomer(balance, name, accountID);
             customerAccounts.put(accountID, studentCustomer);
-            // System.out.println(studentCustomer);
         }
-        catch (InvalidCustomerException e)
-        {
-            System.err.println(e.getMessage());
-        }
-
     }
 
     public void addStudentCustomers(String name, String accountID)
     {
-        try
+        if(validAccount(accountID, "customer"))
         {
             Customer studentCustomer = new StudentCustomer(name, accountID);
             customerAccounts.put(accountID, studentCustomer);
-            // System.out.println(studentCustomer);
         }
-        catch (InvalidCustomerException e)
-        {
-            System.err.println(e.getMessage());
-        }
-
     }
 
     public void addStaffCustomers(int balance, String name, String accountID, String staffDepartment)
     {
-        try
+        if(validAccount(accountID, "customer"))
         {
             Customer staffCustomer = new StaffCustomer(balance, name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
-            // System.out.println(staffCustomer);
-        }
-        catch (InvalidCustomerException e)
-        {
-            System.err.println(e.getMessage());
         }
     }
 
     public void addStaffCustomers(String name, String accountID, String staffDepartment)
     {
-        try
+        if(validAccount(accountID, "customer"))
         {
             Customer staffCustomer = new StaffCustomer(name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
-            // System.out.println(staffCustomer);
-        }
-        catch (InvalidSnackException e)
-        {
-            System.err.println(e.getMessage());
         }
     }
 
     public void addFood(String snackID, String name, int basePrice, String isHot)
     {
-        try
+        if(validAccount(snackID, "snack"))
         {
             Food food = new Food(snackID, name, basePrice, isHot);
             food.setNewPrice(food.calculatePrice());
             snackCollection.put(snackID, food);
-            // System.out.println(food);
-        }
-        catch (InvalidSnackException e)
-        {
-            System.err.println(e.getMessage());
         }
     }
 
     public void addDrink(String snackID, String name, int basePrice, String sugarContent)
     {
-        try
+        if(validAccount(snackID, "snack"))
         {
             Drink drink = new Drink(snackID, name, basePrice, sugarContent);
             drink.setNewPrice(drink.calculatePrice());
             snackCollection.put(snackID, drink);
-            // System.out.println(drink);
-        }
-        catch (InvalidSnackException e)
-        {
-            System.err.println(e.getMessage());
         }
     }
     public void addDrink(String snackID, String name, int basePrice)
     {
-        try
+        if(validAccount(snackID, "snack"))
         {
             Drink drink = new Drink(snackID, name, basePrice);
             drink.setNewPrice(drink.calculatePrice());
             snackCollection.put(snackID, drink);
-            // System.out.println(drink);
         }
-        catch (InvalidSnackException e)
-        {
-            System.err.println(e.getMessage());
-        }
-
     }
     // our processPurchase function:
 
@@ -173,13 +133,13 @@ public class SnackShop {
                 Customer c = getCustomer(customerID);
                 Snack s = getSnack(snackID);
                 // We will then charge the customer and charge account will return the value for turnover
-                int newTurnover = this.turnover += c.chargeAccount(s.basePrice);
+                double discountedPrice = c.chargeAccount(s.basePrice);
+                int newTurnover = this.turnover += (int) discountedPrice;
                 setTurnover(newTurnover);
                 return true;
             }
             catch ( InvalidCustomerException | InvalidSnackException | InvalidBalanceException e)
             {
-
                 throw new TransactionException("Transaction could not be processed: " + e.getMessage());
             }
         }
@@ -272,20 +232,42 @@ public class SnackShop {
         and instead return and then print them out in our main method.
          */
     public String displayAllAccounts()
+    {
+        StringBuilder allCustomersAccountsAsStrings = new StringBuilder();
+        for (Customer customer : customerAccounts.values())
         {
-            StringBuilder allCustomersAccountsAsStrings = new StringBuilder();
-            for(Customer customer : customerAccounts.values())
-            {
                 /* Firstly we check for each customers values within our customer
                 accounts hashmap
                  */
-                String customerAccountAsString = customer.toString();
-                allCustomersAccountsAsStrings.append(customerAccountAsString);
-            }
-            // Return all the customer accounts within the stringbuilder as a
-            // string since we are in string builder format.
-            return allCustomersAccountsAsStrings.toString();
+            String customerAccountAsString = customer.toString();
+            allCustomersAccountsAsStrings.append(customerAccountAsString).append("\n");
         }
+        // Return all the customer accounts within the stringbuilder as a
+        // string since we are in string builder format.
+        return allCustomersAccountsAsStrings.toString();
+    }
+
+    public boolean validAccount(String ID, String type)
+    {
+        if(type.equalsIgnoreCase("customer"))
+        {
+            boolean isPresent = customerAccounts.containsKey(ID);
+            if(isPresent)
+            {
+                throw new InvalidCustomerException("This accountID: " + ID + ", is already within our customer accounts database.");
+            }
+        }
+        else if(type.equalsIgnoreCase("snack"))
+        {
+            boolean isPresent = snackCollection.containsKey(ID);
+            if(isPresent)
+            {
+                throw new InvalidSnackException("This snackID: " + ID + ", is already within our customer accounts database.");
+            }
+        }
+        return true;
+    }
+
 
 // Getters and Setters for our Shop name.
     public String getShopName()
@@ -312,7 +294,7 @@ public class SnackShop {
         {
             if(customerAccounts.get(customerID) == null)
             {
-                throw new InvalidSnackException("Invalid customerID: " + customerID + " is not part of our account database.");
+                throw new InvalidCustomerException("Invalid customerID: " + customerID + " is not part of our account database.");
             }
             return customerAccounts.get(customerID);
         }
