@@ -49,7 +49,7 @@ public class StaffCustomer extends Customer
         newBalance = Math.round(balance -= staffDiscountedSnackPrice);
 
         this.setBalance(newBalance);
-        return (int) Math.ceil(staffDiscountedSnackPrice);
+        return (int) Math.round(staffDiscountedSnackPrice);
     }
 
     private double calculateDiscountFromDept()

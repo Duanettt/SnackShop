@@ -66,6 +66,9 @@ public class Drink extends Snack
                 // No price adjustment for NONE
                 break;
         }
+
+        setNewPrice(newPrice);
+
         return price;
     }
     /* UPDATE: When building the drink class and trying to create an object we had to

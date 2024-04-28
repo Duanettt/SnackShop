@@ -7,7 +7,6 @@ public class Customer
     // Constructors for customer
     public Customer(int balance, String name, String accountID) throws InvalidCustomerException
     {
-        // DEPENDING ON THE EMAIL I GET BACK FROM JASON - WE'LL SEE IF WE NEED A TRY CATCH for both constructors.
         validateCustomerInfo(balance,accountID);
         this.name = name;
         this.accountID = accountID;
@@ -104,6 +103,7 @@ public class Customer
     public void setBalance(int balance)
     {
         this.balance = balance;
+
     }
 
     public String getName()

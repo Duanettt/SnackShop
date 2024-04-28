@@ -133,7 +133,7 @@ public class SnackShop {
                 Customer c = getCustomer(customerID);
                 Snack s = getSnack(snackID);
                 // We will then charge the customer and charge account will return the value for turnover
-                double discountedPrice = c.chargeAccount(s.basePrice);
+                double discountedPrice = c.chargeAccount(s.getNewPrice());
                 int newTurnover = this.turnover += (int) discountedPrice;
                 setTurnover(newTurnover);
                 return true;

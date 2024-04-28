@@ -47,7 +47,7 @@ public class StudentCustomer extends Customer
         /* Changes our current customers balance */
         this.setBalance(newBalance);
 
-        return (int) Math.ceil(newSnackPrice);
+        return (int) Math.round(newSnackPrice);
     }
 
     @Override

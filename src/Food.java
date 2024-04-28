@@ -56,7 +56,8 @@ public class Food extends Snack {
     {
         // Test to see what the new price is after i apply this.
         newPrice = (int) Math.round(basePrice * surcharge);
-
+        // set new price.
+        setNewPrice(newPrice);
         // This casts to an int then we round the result to the nearest penny.
         return (int) Math.round(basePrice * surcharge);
     }
