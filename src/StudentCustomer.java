@@ -41,7 +41,7 @@ public class StudentCustomer extends Customer
             throw new InvalidBalanceException("Insufficient balance, " + getName()
                     + " balance: " + balance + " the snack's price is: " + newSnackPrice);
         }
-        newBalance = (int) Math.ceil(balance - newSnackPrice);
+        newBalance = (int) Math.round(balance - newSnackPrice);
         /* Updated: Removed the else since, no need to add an else statement
          */
         /* Changes our current customers balance */

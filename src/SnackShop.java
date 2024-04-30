@@ -22,6 +22,7 @@ public class SnackShop {
     HashMap<String, Snack> snackCollection = new HashMap<>();
     private String shopName;
     private int turnover;
+    public double totalDiscountedPrice;
 
     public SnackShop(String shopName)
     {
@@ -133,8 +134,8 @@ public class SnackShop {
                 Customer c = getCustomer(customerID);
                 Snack s = getSnack(snackID);
                 // We will then charge the customer and charge account will return the value for turnover
-                double discountedPrice = c.chargeAccount(s.getNewPrice());
-                int newTurnover = this.turnover += (int) discountedPrice;
+                totalDiscountedPrice = c.chargeAccount(s.getNewPrice());
+                int newTurnover = this.turnover += (int) totalDiscountedPrice;
                 setTurnover(newTurnover);
                 return true;
             }
@@ -299,7 +300,12 @@ public class SnackShop {
             return customerAccounts.get(customerID);
         }
 
-        public Snack getSnack (String snackID) throws InvalidSnackException
+    public double getTotalDiscountedPrice()
+    {
+        return totalDiscountedPrice;
+    }
+
+    public Snack getSnack (String snackID) throws InvalidSnackException
         {
             if(snackCollection.get(snackID) == null)
             {

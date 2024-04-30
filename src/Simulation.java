@@ -113,13 +113,13 @@ public class Simulation
 
     public void processTransactions(String[] transactionLines, SnackShop snackShop)
     {
-        String instruction = transactionLines[0].toUpperCase();
+        String instruction = transactionLines[0];
         // Just be wasted memory (I think..) if i kept creating customerID variables
         // in every try catch statement..
         String customerID;
         Customer customer;
         Snack snack;
-        if(instruction.contains("PURCHASE"))
+        if(instruction.equalsIgnoreCase("PURCHASE"))
         {
             try
             {
@@ -130,13 +130,17 @@ public class Simulation
                  */
                 customerID = transactionLines[1];
                 String snackID = transactionLines[2];
+                /* Creating customer and snack allows for me to use the getters to create a message for successful transactions
+                Although this could just lead to process purchase being skipped since the exception will be caught earlier
+                I need this to display the
+                 */
                 customer = snackShop.getCustomer(customerID);
                 snack = snackShop.getSnack(snackID);
                 System.out.println(customer);
+                snackShop.processPurchase(customerID, snackID);
                 System.out.println("Original balance: " + customer.getBalance()
                 + " Base snack price: " + snack.getBasePrice()
-                        + ", new snack price: " + snack.getNewPrice());
-                snackShop.processPurchase(customerID, snackID);
+                        + ", new snack price after all discounts have been applied: " + snackShop.getTotalDiscountedPrice());
                 System.out.println("Transaction successful: " + customer.getName()
                 + " has bought " + snack.getName() + " and now has a balance of: "
                 + customer.getBalance() + "\n");
@@ -146,7 +150,7 @@ public class Simulation
                 System.err.println("Transaction unsuccessful: " + e.getMessage() + "\n");
             }
         }
-        else if(instruction.contains("ADD_FUNDS"))
+        else if(instruction.equalsIgnoreCase("ADD_FUNDS"))
         {
             try
             {
@@ -165,7 +169,7 @@ public class Simulation
 
             }
         }
-        else if(instruction.contains("NEW_CUSTOMER"))
+        else if(instruction.equalsIgnoreCase("NEW_CUSTOMER"))
         {
             try
             {

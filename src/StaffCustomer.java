@@ -46,7 +46,7 @@ public class StaffCustomer extends Customer
         /* Updated: Removed the else since, no need to add an else statement
          */
         int newBalance = 0;
-        newBalance = Math.round(balance -= staffDiscountedSnackPrice);
+        newBalance = (int) Math.round(balance -= Math.ceil(staffDiscountedSnackPrice));
 
         this.setBalance(newBalance);
         return (int) Math.round(staffDiscountedSnackPrice);

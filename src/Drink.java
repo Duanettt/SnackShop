@@ -67,7 +67,7 @@ public class Drink extends Snack
                 break;
         }
 
-        setNewPrice(newPrice);
+        setNewPrice(price);
 
         return price;
     }

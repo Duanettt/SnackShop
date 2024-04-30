@@ -55,11 +55,11 @@ public class Food extends Snack {
     public int calculatePrice()
     {
         // Test to see what the new price is after i apply this.
-        newPrice = (int) Math.round(basePrice * surcharge);
+        newPrice = (int) Math.ceil(basePrice * surcharge);
         // set new price.
         setNewPrice(newPrice);
         // This casts to an int then we round the result to the nearest penny.
-        return (int) Math.round(basePrice * surcharge);
+        return newPrice;
     }
 
     public hotOrCold isHot()
