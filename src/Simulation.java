@@ -100,7 +100,7 @@ public class Simulation
             name = snackLine[1];
             basePrice = Integer.parseInt(snackLine[3]);
             sugarContentLevel = snackLine[2].toLowerCase();
-            if (sugarContentLevel.contains("none"))
+            if (sugarContentLevel.equalsIgnoreCase("none"))
             {
                 snackShop.addDrink(snackID, name, basePrice);
             }
@@ -138,8 +138,7 @@ public class Simulation
                 snack = snackShop.getSnack(snackID);
                 System.out.println(customer);
                 snackShop.processPurchase(customerID, snackID);
-                System.out.println("Original balance: " + customer.getBalance()
-                + " Base snack price: " + snack.getBasePrice()
+                System.out.println("Base snack price: " + snack.getBasePrice()
                         + ", new snack price after all discounts have been applied: " + snackShop.getTotalDiscountedPrice());
                 System.out.println("Transaction successful: " + customer.getName()
                 + " has bought " + snack.getName() + " and now has a balance of: "
@@ -206,7 +205,10 @@ public class Simulation
         {
             boolean customerTypeEqualsStudent = customerInfo[customerTypeIndexPos].equalsIgnoreCase("STUDENT");
             boolean customerTypeEqualsStaff = customerInfo[customerTypeIndexPos].equalsIgnoreCase("STAFF");
-
+            /*
+            These conditional statements account for whatever lines within the transaction file when it comes to adding
+            new customers.
+             */
             if (customerTypeEqualsStudent)
             {
                 try
@@ -219,6 +221,8 @@ public class Simulation
             }
             else if(customerTypeEqualsStaff)
             {
+                // Set to OTHER if the length of the line is greater than 5 and if we can't access that just use OTHER within
+                // the catch statement
                 String staffDepartment = "OTHER";
                 if (customerInfo.length >= 5)
                 {

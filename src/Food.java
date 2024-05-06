@@ -55,11 +55,24 @@ public class Food extends Snack {
     public int calculatePrice()
     {
         // Test to see what the new price is after i apply this.
-        newPrice = (int) Math.ceil(basePrice * surcharge);
-        // set new price.
-        setNewPrice(newPrice);
-        // This casts to an int then we round the result to the nearest penny.
-        return newPrice;
+        /*
+        So, basically last minute change - I didn't realise that in the coursework the 10% surcharge was meant only for
+        food's and I kept wondering why I was getting such weird values for turnover and the median. I had to create
+        an if statement or just a switch statement to identify whether a food object is hot or cold, if it was hot then
+        I apply the 10% surcharge if not I just use the normal basePrice and that seemed to fix all my issues.
+         */
+        switch(this.isHotOrCold)
+        {
+            case HOT:
+                newPrice = (int) Math.round(basePrice * surcharge);
+                setNewPrice(newPrice);
+                return newPrice;
+            case COLD:
+                setNewPrice(basePrice);
+                return basePrice;
+        }
+
+        return 0;
     }
 
     public hotOrCold isHot()

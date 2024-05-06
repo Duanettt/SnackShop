@@ -33,8 +33,10 @@ public class StaffCustomer extends Customer
     @Override
     public int chargeAccount(int snackPrice) throws InvalidBalanceException
     {
-        double staffDiscountedSnackPrice = (calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
+        // Will calculate the new snack price after a staff discount has been applied.
+        double staffDiscountedSnackPrice = Math.ceil(calculateDiscountedPrice(snackPrice, calculateDiscountFromDept()));
 
+        // Boolean value for readability
         boolean balanceIsLessThanStaffDiscountedPrice = (balance <
                staffDiscountedSnackPrice);
 
@@ -46,10 +48,10 @@ public class StaffCustomer extends Customer
         /* Updated: Removed the else since, no need to add an else statement
          */
         int newBalance = 0;
-        newBalance = (int) Math.round(balance -= Math.ceil(staffDiscountedSnackPrice));
+        newBalance = (int) Math.ceil(balance -= (staffDiscountedSnackPrice));
 
         this.setBalance(newBalance);
-        return (int) Math.round(staffDiscountedSnackPrice);
+        return (int) Math.ceil(staffDiscountedSnackPrice);
     }
 
     private double calculateDiscountFromDept()

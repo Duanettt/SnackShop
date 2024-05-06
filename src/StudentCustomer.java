@@ -32,7 +32,7 @@ public class StudentCustomer extends Customer
         and the studentDiscountNum which can be set by utilizing out setter function.
          */
         // Conditional variable for my understanding:
-        double newSnackPrice = calculateDiscountedPrice(snackPrice, studentDiscountNum);
+        double newSnackPrice = Math.ceil(calculateDiscountedPrice(snackPrice, studentDiscountNum));
         boolean balanceLessThanDiscountedPrice = (balance - newSnackPrice ) < maxNegativeBalance;
 
         int newBalance = 0;
@@ -47,7 +47,7 @@ public class StudentCustomer extends Customer
         /* Changes our current customers balance */
         this.setBalance(newBalance);
 
-        return (int) Math.round(newSnackPrice);
+        return (int) Math.ceil(newSnackPrice);
     }
 
     @Override

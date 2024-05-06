@@ -128,6 +128,9 @@ public class SnackShop {
             /*
             UPDATE: Revisited slides and watched videos on exceptions relearnt multiple things
             which has enabled me to figure this out.
+
+            I will firstly get our customer and snacks from my hashmap. These methods both throw exceptions so I can
+            just catch all these exceptions group them into a transactionexception and throw it up the stack to simulation.
              */
             try
             {
@@ -141,7 +144,7 @@ public class SnackShop {
             }
             catch ( InvalidCustomerException | InvalidSnackException | InvalidBalanceException e)
             {
-                throw new TransactionException("Transaction could not be processed: " + e.getMessage());
+                throw new TransactionException("Transaction error: " + e.getMessage());
             }
         }
         return false;
