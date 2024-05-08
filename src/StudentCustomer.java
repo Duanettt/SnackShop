@@ -12,17 +12,6 @@ public class StudentCustomer extends Customer
         super(name, accountID);
     }
 
-    /*@Override
-     public void validateCustomerInfo(int balance, String accountID) throws InvalidCustomerException
-    {
-        super.validateCustomerInfo(balance,accountID);
-        if (balance < maxNegativeBalance)
-        {
-            throw new InvalidCustomerException("Your initial balance is too low: " +
-                    balance + " , please input a positive balance.");
-        }
-    } */
-
     @Override
     public int chargeAccount(int snackPrice) throws InvalidBalanceException
     {
@@ -31,8 +20,8 @@ public class StudentCustomer extends Customer
         calculation of discounted price using our function which takes two parameters of our snackPrice
         and the studentDiscountNum which can be set by utilizing out setter function.
          */
-        // Conditional variable for my understanding:
         double newSnackPrice = Math.ceil(calculateDiscountedPrice(snackPrice, studentDiscountNum));
+        // Conditional variable for my understanding:
         boolean balanceLessThanDiscountedPrice = (balance - newSnackPrice ) < maxNegativeBalance;
 
         int newBalance = 0;
@@ -41,7 +30,7 @@ public class StudentCustomer extends Customer
             throw new InvalidBalanceException("Insufficient balance, " + getName()
                     + " balance: " + balance + " the snack's price is: " + newSnackPrice);
         }
-        newBalance = (int) Math.round(balance - newSnackPrice);
+        newBalance = (int)(balance - newSnackPrice);
         /* Updated: Removed the else since, no need to add an else statement
          */
         /* Changes our current customers balance */
@@ -60,15 +49,6 @@ public class StudentCustomer extends Customer
     // and staff and in my code for the staff it was getting confusing to read
     // since i had to reference studentcustomer to access the
     // calculateDiscountedPrice method.
-
-    /*
-     public double calculateDiscountedPrice(int snackPrice, double studentDiscountPercentage)
-    {
-        We do our studentDiscountPercentage e.g 5/100 which gives us 0.05 we then do 1 - 0.05 to get 0.95
-        we then times this by our price to get our discounted price for our snack.
-        return snackPrice * ( 1 - (studentDiscountPercentage / 100.0));
-    }
-     */
 
 
     // Getters and Setters (Setters needed, last feedback did not want such specific requirements so we should

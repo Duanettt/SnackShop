@@ -65,10 +65,8 @@ public class Food extends Snack {
         {
             case HOT:
                 newPrice = (int) Math.round(basePrice * surcharge);
-                setNewPrice(newPrice);
                 return newPrice;
             case COLD:
-                setNewPrice(basePrice);
                 return basePrice;
         }
 

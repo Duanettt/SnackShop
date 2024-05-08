@@ -68,6 +68,7 @@ class SnackShop {
     + setTurnover(int): void
     + getCustomer(String): Customer
     + getSnack(String): Snack
+    + checkForDuplicateID(String, String): boolean
 }
 
 class Simulation {

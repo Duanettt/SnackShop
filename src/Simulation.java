@@ -21,9 +21,9 @@ public class Simulation
         File snackFile = makeFileObject("snacks.txt");
         File customerFile = makeFileObject("customers.txt");
         File transactionFile = makeFileObject("transactions.txt");
-        SnackShop Tesco = initialiseShop("Tesco", snackFile, customerFile);
+        SnackShop Pesco = initialiseShop("Pesco", snackFile, customerFile);
         //System.out.println(Tesco.displayAllAccounts());
-        simulateShopping(Tesco, transactionFile);
+        simulateShopping(Pesco, transactionFile);
     }
 
     public SnackShop initialiseShop(String shopName, File snackFile, File customerFile)
@@ -153,6 +153,9 @@ public class Simulation
         {
             try
             {
+                /*
+                PARSE's in lines gains customerID and value deposited and then add's values.
+                 */
                 customerID = transactionLines[1];
                 int depositValue = Integer.parseInt(transactionLines[2]);
                 customer = snackShop.getCustomer(customerID);
@@ -257,10 +260,9 @@ public class Simulation
                 String[] transactionLineValues = transactionLine.split(",");
                 processTransactions(transactionLineValues, snackShop);
             }
-            System.out.println("The largest base price in our snack collection: " + snackShop.findLargestBasePrice());
-            System.out.println("The median customer balance out of customers in the " +
-                            "shop: " + snackShop.getShopName() + " , the median " +
-                    "balance: " + snackShop.calculateMedianCustomerBalance());
+
+            System.out.println("\n" + "The largest base price in our snack collection: " + snackShop.findLargestBasePrice());
+            System.out.println(snackShop.getShopName() + " , has a median balance: " + snackShop.calculateMedianCustomerBalance());
             System.out.println("The number of negative accounts in the snack shop, " +
                     snackShop.getShopName() + " is: "
                     + snackShop.countNegativeAccount());

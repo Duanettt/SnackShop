@@ -24,6 +24,7 @@ public class SnackShop {
     private int turnover;
     public double totalDiscountedPrice;
 
+
     public SnackShop(String shopName)
     {
         this.shopName = shopName;
@@ -37,13 +38,15 @@ public class SnackShop {
 
      /*
     Methods to add individual customers and snacks need multiple methods to access,3
-    multiple constructors cannot find another way to do this other than possibly changing
-    the whole structure of this code which is not ideal...
+    multiple constructors cannot find another way to do this.
      */
+
+
 
     public void addCustomer(int balance, String name, String accountID)
     {
-        if(validAccount(accountID, "customer"))
+        // If checkForDuplicateID function returns false then we can execute the code within the if block.
+        if(!checkForDuplicateID(accountID, "customer"))
         {
             Customer customer = new Customer(balance, name, accountID);
             customerAccounts.put(accountID, customer);
@@ -53,7 +56,7 @@ public class SnackShop {
 
     public void addStudentCustomers(int balance, String name, String accountID)
     {
-        if(validAccount(accountID, "customer"))
+        if(!checkForDuplicateID(accountID, "customer"))
         {
             Customer studentCustomer = new StudentCustomer(balance, name, accountID);
             customerAccounts.put(accountID, studentCustomer);
@@ -62,7 +65,7 @@ public class SnackShop {
 
     public void addStudentCustomers(String name, String accountID)
     {
-        if(validAccount(accountID, "customer"))
+        if(!checkForDuplicateID(accountID, "customer"))
         {
             Customer studentCustomer = new StudentCustomer(name, accountID);
             customerAccounts.put(accountID, studentCustomer);
@@ -71,7 +74,7 @@ public class SnackShop {
 
     public void addStaffCustomers(int balance, String name, String accountID, String staffDepartment)
     {
-        if(validAccount(accountID, "customer"))
+        if(!checkForDuplicateID(accountID, "customer"))
         {
             Customer staffCustomer = new StaffCustomer(balance, name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
@@ -80,7 +83,7 @@ public class SnackShop {
 
     public void addStaffCustomers(String name, String accountID, String staffDepartment)
     {
-        if(validAccount(accountID, "customer"))
+        if(!checkForDuplicateID(accountID, "customer"))
         {
             Customer staffCustomer = new StaffCustomer(name, accountID, staffDepartment);
             customerAccounts.put(accountID, staffCustomer);
@@ -89,7 +92,7 @@ public class SnackShop {
 
     public void addFood(String snackID, String name, int basePrice, String isHot)
     {
-        if(validAccount(snackID, "snack"))
+        if(!checkForDuplicateID(snackID, "snack"))
         {
             Food food = new Food(snackID, name, basePrice, isHot);
             food.setNewPrice(food.calculatePrice());
@@ -99,7 +102,7 @@ public class SnackShop {
 
     public void addDrink(String snackID, String name, int basePrice, String sugarContent)
     {
-        if(validAccount(snackID, "snack"))
+        if(!checkForDuplicateID(snackID, "snack"))
         {
             Drink drink = new Drink(snackID, name, basePrice, sugarContent);
             drink.setNewPrice(drink.calculatePrice());
@@ -108,7 +111,7 @@ public class SnackShop {
     }
     public void addDrink(String snackID, String name, int basePrice)
     {
-        if(validAccount(snackID, "snack"))
+        if(!checkForDuplicateID(snackID, "snack"))
         {
             Drink drink = new Drink(snackID, name, basePrice);
             drink.setNewPrice(drink.calculatePrice());
@@ -219,7 +222,7 @@ public class SnackShop {
                     int median = (int) Math.ceil(((middle1 + middle2) / 2.0));
                     return median;
                 }
-                else
+                else // size of balance list is odd
                 {
                     /* We use math.ceil to round to the nearest integer, when
                     using math.round this now rounds to the nearest float.
@@ -251,8 +254,14 @@ public class SnackShop {
         return allCustomersAccountsAsStrings.toString();
     }
 
-    public boolean validAccount(String ID, String type)
+    public boolean checkForDuplicateID(String ID, String type)
     {
+        /* Realised that I could create this function to prevent duplicate ID's being created in our
+        database/storage. I just hardcode the type within the method to check for whether the ID is present or not
+        within our storage and if it is it will throw an exception.
+
+        This method could be seen as confusing since it returns true if there is no duplicateID
+         */
         if(type.equalsIgnoreCase("customer"))
         {
             boolean isPresent = customerAccounts.containsKey(ID);
@@ -269,7 +278,7 @@ public class SnackShop {
                 throw new InvalidSnackException("This snackID: " + ID + ", is already within our customer accounts database.");
             }
         }
-        return true;
+        return false;
     }
 
 
@@ -320,7 +329,6 @@ public class SnackShop {
         public static void main (String[]args)
         {
             SnackShop Tesco = new SnackShop("Tesco");
-
         }
 
 
